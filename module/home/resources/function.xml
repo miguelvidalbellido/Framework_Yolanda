@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<functions>
+    <function>
+        <name>view</name>
+        <uri>view</uri>
+    </function>
+    <function>
+        <name>brands</name>
+        <uri>brands</uri>
+    </function>
+    <function>
+        <name>categories</name>
+        <uri>categories</uri>
+    </function>
+    <function>
+        <name>fuel</name>
+        <uri>fuel</uri>
+    </function>
+    <function>
+        <name>more_visited</name>
+        <uri>more_visited</uri>
+    </function>
+</functions>

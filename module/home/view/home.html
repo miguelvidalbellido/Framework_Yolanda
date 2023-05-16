@@ -1,0 +1,69 @@
+<div class="cards-list">
+    <div id="top">  
+        <h2>MARCAS</h2>
+    </div>
+    </div>
+    <swiper-container  id="containerBrands" >
+    </swiper-container>
+    
+    
+    <div class="cards-list" id="containerCategories">
+        <div id="top">  
+            <h2>CARROCERIAS</h2>
+        </div>
+    </div>
+    
+    <div class="cards-list" id="containerTypeFuel">
+        <div id="top">  
+            <h2>MOTORES</h2>
+        </div>
+    </div>
+    
+    <div class="cards-list" id="containerModelVisits">
+    <div id="top">  
+        <h2>Modelos más bucados</h2>
+    </div>
+    </div>
+<!-- ======= API CARS ======= -->
+<section id="team" class="team section-bg">
+    <div class="container" data-aos="fade-up">
+  
+      <div class="section-title">
+        <h2>Libros relacionados</h2>
+        <p>Libros relacionados sobre amplitud de variantes de coches.</p>
+      </div>
+  
+      <div class="row" id="containerBooks"></div>
+      <div id="load_books_button"></div>
+    </div>
+  </section><!-- End Team Section -->
+
+<script>
+    const swiperEl = document.querySelector('swiper-container')
+    Object.assign(swiperEl, {
+    slidesPerView: 1,
+    spaceBetween: 10,
+    navigation: {
+    nextEl: ".swiper-button-next",
+    prevEl: ".swiper-button-prev",
+    },
+    pagination: {
+        clickable: true,
+    },
+    breakpoints: {
+        640: {
+        slidesPerView: 2,
+        spaceBetween: 20,
+        },
+        768: {
+        slidesPerView: 4,
+        spaceBetween: 40,
+        },
+        1024: {
+        slidesPerView: 5,
+        spaceBetween: 50,
+        },
+    },
+    });
+    swiperEl.initialize();
+</script>

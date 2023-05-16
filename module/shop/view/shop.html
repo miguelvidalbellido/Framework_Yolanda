@@ -1,0 +1,109 @@
+<div class="container my-5" id="list_cars">
+    <h2 class="text-center mb-5">Todos los coches:</h2>
+    
+    <div class="row">
+      <div class="col-sm-3 col-md-2 sidebar" id="lateral_menu">
+        <form>
+          <!-- HIGHLIT -->
+          <div class="container">
+            <div class="row">
+              <div class="col-sm-12">
+                <div class="d-flex flex-wrap" id="highlight"></div>
+                <div class="d-flex flex-wrap" id="highlight_searchs"></div>
+              </div>
+            </div>
+          </div>
+  
+          <div class=""  id="view_searchs">
+  
+          </div>
+          <div class="form-group mt-2" id="fuel_div">
+            <h6>Combustible: </h6>
+            <select class="custom-select" id="fuel">
+              <option value="*">Todas</option>
+            </select>
+          </div>
+          <div class="form-group mt-2" id="brand_div">
+            <h6 class="font-weight-bold">Marca: </h6>
+            <select class="custom-select" id="brand">
+              <option value="*">Todas</option>
+            </select>
+          </div>
+          <div class="form-group mt-2" id="shifter_div">
+            <h6>Cambio: </h6>
+            <select class="custom-select" id="shifter">
+              <option value="*">Todos</option>
+            </select>
+          </div>
+          <div class="form-group mt-2 " id="environmental_label_div">
+            <h6>Etiqueta medioambiental: </h6>
+            <select class="custom-select" id="environmental_label">
+              <option value="*">Todas</option>
+            </select>
+          </div>
+        </form>
+      </div>
+      <div class="col-sm-9 col-md-8" id="list_cars1">
+      </div>
+        <div class="col-md-2">
+          <div class="form-group mt-2 pb-2" id="order_div">
+            <!-- <h6>Ordenar: </h6> -->
+            <select class="custom-select" id="order">
+              <option value="*" selected disabled>ORDENAR</option>
+              <option value="num_visits DESC">Más visitados</option>
+              <option value="num_visits ASC">Menos visitados</option>
+              <option value="price DESC">Más caros primero</option>
+              <option value="price ASC">Más baratos primero</option>
+              <option value="publication_date DESC">Anuncios más recientes</option>
+              <option value="km ASC">Menos KM</option>
+              <option value="km DESC">Más km</option>
+              <option value="enrollment_date DESC">Más antiguos</option>
+              <option value="enrollment_date ASC">Más nuevos</option>
+            </select>
+          </div>
+          <div id="map" style='width: 20vw; height:40vw;'>
+    
+          </div>
+        </div>
+    </div>
+  
+    <!-- <div id="dynamic_content">Pagination goes here</div> -->
+    <div class="d-flex justify-content-center mt-5">
+      <div id="show_paginator"></div>
+    </div>
+  </div>
+  
+  
+  
+  
+  
+  <div class="container-fluid">
+    <div class="row">
+      <swiper-container class="col-8" id="container-date-img" navigation="true" pagination="true" keyboard="true" mousewheel="true" css-mode="true" navigation="true" ></swiper-container>
+      <div class="date_car col-4" id="container-date-img"></div>
+    </div>
+    <!-- MAPA DETAILS -->
+    <div class="row mapboxCar d-flex align-items-center">
+      <div class="col-12 mx-auto">
+        <div id="map" style='width: 97vw; height: 500px;'>
+  
+        </div>
+      </div>
+  
+      <!-- ======== PRODUCTOS SIMILAES =================== -->
+  <section class="similarCarsSection">
+    <div class="text-center container title_similarsCars">
+      <h4 class="mt-2 mb-5"><strong>Bestsellers</strong></h4>
+  
+      <div class="row similarCars" id="similarCars">
+  
+      </div>
+    </div>
+  </section>
+  
+    </div>
+  
+    
+  
+  
+  

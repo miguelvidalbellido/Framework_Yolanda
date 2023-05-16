@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<functions>
+    <function>
+        <name>view</name>
+        <uri>view</uri>
+    </function>
+    <function>
+        <name>cars</name>
+        <uri>cars</uri>
+    </function>
+    <function>
+        <name>count_all_cars</name>
+        <uri>count_all_cars</uri>
+    </function>
+    <function>
+        <name>count_cars_filter</name>
+        <uri>count_cars_filter</uri>
+    </function>
+</functions>
