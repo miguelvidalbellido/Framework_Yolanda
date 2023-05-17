@@ -28,5 +28,33 @@
             return $this -> dao -> select_data_count_all_cars($this -> db);
 		}
 
+		public function get_count_cars_filter_BLL($args) {
+			return $this -> dao -> select_data_count_filter_cars($this -> db, $args);
+		}
+
+		public function get_details_car_BLL($args) {
+			$rdo = array();
+			$rdo[0][] =  $this -> dao -> search_data_details_car($this -> db, $args);
+			$rdo[1][] = $this -> dao -> search_data_img_details_car($this -> db, $args);
+			return $rdo;
+		}
+
+		// LATERAL MENU
+		public function get_lateral_menu_BLL() {
+			$rdo = array();
+            $rdo[0] = $this -> dao -> search_data_fuel($this -> db);
+            $rdo[1][] = $this -> dao -> search_data_brand($this -> db);
+			$rdo[2][] = $this -> dao -> search_data_shifter($this -> db);
+			$rdo[3][] = $this -> dao -> search_environmental_label_brand($this -> db);
+            return $rdo;
+		}
+
+		public function get_cars_filter_BLL($args) {
+			return $this -> dao -> search_data_filters($this -> db, $args[0], $args[1], $args[2]);
+		}
+
+		public function get_similar_cars_BLL($args) {
+			return $this -> dao -> search_data_similar_cars($this -> db, $args[0]);
+		}
     }
 ?>

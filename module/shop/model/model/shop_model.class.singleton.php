@@ -25,5 +25,26 @@
             return $this -> bll -> get_count_all_cars_BLL();
         }
 
+        public function count_cars_filter($args) {
+            return $this -> bll -> get_count_cars_filter_BLL($args);
+        }
+
+        public function load_lateral_menu() {
+            return $this -> bll -> get_lateral_menu_BLL();
+        }
+
+        public function filters($args) {
+            // return $args;
+            return $this -> bll -> get_cars_filter_BLL($args);
+        }
+
+        public function details_car($args) {
+            return $this -> bll -> get_details_car_BLL($args);
+        }
+
+        public function similar_cars($args) {
+            return $this -> bll -> get_similar_cars_BLL($args);
+        }
+
     }
 ?>

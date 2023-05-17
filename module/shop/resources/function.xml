@@ -16,4 +16,20 @@
         <name>count_cars_filter</name>
         <uri>count_cars_filter</uri>
     </function>
+    <function>
+        <name>lateral_menu</name>
+        <uri>lateral_menu</uri>
+    </function>
+    <function>
+        <name>filter</name>
+        <uri>filter</uri>
+    </function>
+    <function>
+        <name>details_car</name>
+        <uri>details_car</uri>
+    </function>
+    <function>
+        <name>similar_cars</name>
+        <uri>similar_cars</uri>
+    </function>
 </functions>
