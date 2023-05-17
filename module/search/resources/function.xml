@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<functions>
+    <function>
+        <name>searchbrands</name>
+        <uri>searchbrands</uri>
+    </function>
+    <function>
+        <name>searchAllModel</name>
+        <uri>searchAllModel</uri>
+    </function>
+    <function>
+        <name>searchModelsBrand</name>
+        <uri>searchModelsBrand</uri>
+    </function>
+    <function>
+        <name>searchDataAutocomplete</name>
+        <uri>searchDataAutocomplete</uri>
+    </function>
+    
+</functions>

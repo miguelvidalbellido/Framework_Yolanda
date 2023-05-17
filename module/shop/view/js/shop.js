@@ -339,7 +339,7 @@ function ajaxForSearch(url,filter,total_prod = 0, items_page = 3){
     .then(function(data) {
         $('#list_cars1').empty();
         // console.log(data);
-        if (data == "error") {
+        if (data.length === 0) {
             $('<div></div>').appendTo('#list_cars1')
                 .html(
                     '<div class="alert alert-danger d-flex align-items-center" role="alert">' +

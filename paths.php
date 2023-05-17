@@ -48,6 +48,10 @@
     define('JS_SHOP', SITE_PATH . 'module/shop/view/js/');
     define('VIEW_HOME', SITE_PATH . 'module/shop/view/');
 
+    // MODEL_SEARCH
+    define('MODEL_SEARCH', SITE_ROOT. 'module/search/model/model/');
+    define('JS_SEARCH', SITE_PATH . 'module/search/view/js/');
+
     // TEMPLATE //
     define('JS_TEMPLATE', SITE_PATH . 'view/assets/js/');
     define('VENDOR_TEMPLATE', SITE_PATH . 'view/assets/vendor/');

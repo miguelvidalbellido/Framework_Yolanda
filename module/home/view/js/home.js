@@ -88,11 +88,11 @@ function getBooks(){
 
     ajaxPromise('https://www.googleapis.com/books/v1/volumes?q=Cars', 'GET', 'JSON')
     .then(function (data){
-        console.log(data);
+        // console.log(data);
         $("<button class='more_load_books mt-3 button-86' role='button'>Ver más</button>").appendTo('#load_books_button');
         
-        console.log(data.items.length = limit);
-        console.log(limit);
+        // console.log(data.items.length = limit);
+        // console.log(limit);
 
         data.items.length = limit;
         
@@ -127,12 +127,78 @@ function getBooks(){
         });
     }
 }
+
+const redirectShop = () =>{
+    // console.log("asdsad");
+    localStorage.removeItem('filter');
+    localStorage.removeItem('homeBodyworkFilter');
+    localStorage.removeItem('homeFuelFilter');
+    localStorage.removeItem('homeBranFilter');
+    localStorage.removeItem('homeModelFilter');
+
+    // Model Visits
+    $(document).on("click", ".filterHomeModelVisits", function() {
+        var model = this.getAttribute('id');
+        console.log(model);
+
+        var filterModel = [];
+        filterModel.push( "model", this.getAttribute('id') );
+        JSON.stringify(localStorage.setItem('homeModelFilter', JSON.stringify(filterModel)));
+
+        setTimeout(function() {
+            window.location.href = '?module=shop';
+        }, 400);
+    });
+
+    // Carroceria
+    $(document).on("click", ".filterHomeBodywork", function() {
+        var codCat = this.getAttribute('id');
+        // console.log(codCat);
+
+        var filterCat = [];
+        filterCat.push( "cod_bodywork", this.getAttribute('id') );
+        JSON.stringify(localStorage.setItem('homeBodyworkFilter', JSON.stringify([filterCat])));
+
+        setTimeout(function() {
+            window.location.href = '?module=shop';
+        }, 400);
+    });
+
+    // Tipo motor
+    $(document).on("click", ".filterHomeFuel", function() {
+        var codFuel = this.getAttribute('id');
+        // console.log(codFuel);
+
+        var filterFuel = [];
+        filterFuel.push( "cod_fuel", this.getAttribute('id'));
+        JSON.stringify(localStorage.setItem('homeFuelFilter', JSON.stringify([filterFuel])));
+
+        setTimeout(function() {
+            window.location.href = '?module=shop';
+        }, 400);
+    });
+
+    // Brands
+    $(document).on("click", ".filterHomeBrand", function() {
+        // console.log(codBrand);s
+
+        var filterBrand = [];
+        filterBrand.push("cod_brand", this.getAttribute('id') );
+        JSON.stringify(localStorage.setItem('homeBranFilter', JSON.stringify([filterBrand])));
+
+        setTimeout(function() {
+            window.location.href = '?module=shop';
+        }, 400);
+    });
+}
+
 const loadHome = () => {
     load_brand();
     load_categories();
     load_fuel();
     load_moreVisited();
     getBooks();
+    redirectShop();
 }
 
 $(document).ready(function() {
