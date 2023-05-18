@@ -46,11 +46,27 @@
         }
 
         public function execute($sql) {
-            // return "dsadasd";
-            // return $this -> link;
             $this->stmt = $this->link->query($sql);
             return $this -> stmt;
         }
+
+        public function executeForProcedures($sql) {
+                $this->stmt = $this->link->multi_query($sql);
+                
+                $results = [];
+                do {
+                    if ($result = mysqli_store_result($this->link)) {
+                        $rows = [];
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            $rows[] = $row;
+                        }
+                        $results[] = $rows;
+                        mysqli_free_result($result);
+                    }
+                } while (mysqli_next_result($this->link));
+                
+                return $results;
+            }
 
         public function list($stmt) {
             $this->array = array();

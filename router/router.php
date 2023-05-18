@@ -51,12 +51,13 @@
                 $modules = simplexml_load_file('resources/modules.xml');
                 foreach ($modules as $row) {
                     if (in_array($this -> uriModule, (Array) $row -> uri)) {
-                        $path = 'module/' . $row -> name . '/controller/controller_' . (String) $row -> name . '.class.php';
+                        $path = 'module/' . $row -> name . '/controller/controller_' . (String) $row -> name . '.class.singleton.php';
                         if (file_exists($path)) {
                             require_once($path);
                             $controllerName = 'controller_' . (String) $row -> name;
                             $this -> nameModule = (String) $row -> name;
-                            return new $controllerName;
+                            return $controllerName::getInstance();
+                            // return new $controllerName;
                         }
                     }
                 }

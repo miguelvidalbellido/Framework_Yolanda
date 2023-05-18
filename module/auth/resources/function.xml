@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<functions>
+    <function>
+        <name>view</name>
+        <uri>view</uri>
+    </function>
+    <function>
+        <name>register</name>
+        <uri>register</uri>
+    </function>
+    <function>
+        <name>login</name>
+        <uri>login</uri>
+    </function>
+    <function>
+        <name>dataUser</name>
+        <uri>dataUser</uri>
+    </function>
+    <function>
+        <name>logout</name>
+        <uri>logout</uri>
+    </function>
+    <function>
+        <name>controlUser</name>
+        <uri>controlUser</uri>
+    </function>
+    <function>
+        <name>checkExpirationTokenRefresh</name>
+        <uri>checkExpirationTokenRefresh</uri>
+    </function>
+    <function>
+        <name>controlActivity</name>
+        <uri>controlActivity</uri>
+    </function>
+    <function>
+        <name>changeTokenRefres</name>
+        <uri>changeTokenRefres</uri>
+    </function>
+</functions>

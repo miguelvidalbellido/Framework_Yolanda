@@ -16,4 +16,8 @@
         <name>search</name>
         <uri>search</uri>
     </module>
+    <module>
+        <name>auth</name>
+        <uri>auth</uri>
+    </module>
 </modules>

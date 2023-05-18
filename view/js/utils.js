@@ -40,17 +40,22 @@ function changeMenuAuth() {
         '<li><a class="nav-link scrollto" href="index.php?page=services">Services</a></li>'+
         '<li><a class="nav-link   scrollto" href="index.php?page=controller_cars&op=list">Coches</a></li>'+
         '<li><a class="nav-link scrollto" href="' + friendlyURL("?module=shop") + '">Shop</a></li>'+
-        '<li><a class="nav-link scrollto men_login" href="index.php?page=ctrl_login&op=loginAndRegisterView">Register</a></li>'+
+        '<li><a class="nav-link scrollto men_login" href="' + friendlyURL("?module=auth") + '">Register</a></li>'+
         '<li><a class="nav-link scrollto" href="' + friendlyURL("?module=contact") + '">Contact</a></li>'+
-        '<li><a class="getstarted scrollto" href="#about">Get Started</a></li>'
+        '<li><a class="getstarted scrollto" href="#about">Get Started</a></li>'+
+
+              '<div class="dropdown" id="dropdown_user"></div>'+
+
+              '<div id="loadShopCart" class="p-3"></div>'
     );
 
 
     let token = localStorage.getItem('token');
     // console.log(token);
     if(token) {
-        ajaxPromise("module/login/ctrl/ctrl_login.php?op=dataUser", 'POST', 'JSON', { 'token': token })
+        ajaxPromise(friendlyURL("?module=auth&op=dataUser"), 'POST', 'JSON', { 'token': token })
         .then(function (data) { 
+            // console.log(data[0]['avatar']);
             // Limpiamos los contenedores
             $('#highlight_searchs').empty();
             $('.men_login').remove();
@@ -70,7 +75,7 @@ function changeMenuAuth() {
             // Cargamos el carrito (de momento solo icono)
             $('<a href="index.php?page=ctrl_shopCart&op=list"><i class="bi bi-cart fa-6x"></i></a>').appendTo('#loadShopCart');
         }).catch(function() {
-            console.log("Error al cargar data del usuario");
+            console.log("Error al cargar data del usuarioooo");
         });
     } else {
         console.log("No Hay token");
@@ -84,13 +89,13 @@ function click_logout() {
     });
 
     function logout() {
-        ajaxPromise('module/login/ctrl/ctrl_login.php?op=logout', 'POST', 'JSON')
+        ajaxPromise(friendlyURL("?module=auth&op=logout"), 'POST', 'JSON')
         .then(function(data) {
             // console.log(data);
             localStorage.removeItem('token');
             localStorage.removeItem('token_refresh');
             toastr.success("Logout succesfully");
-            window.location.href = "index.php?page=ctrl_shop&op=list";
+            window.location.href = "?module=shop";
             // console.log('logout');
         }).catch(function() {
             console.log('Error logout promise');
@@ -110,7 +115,7 @@ function launchActivityData() {
 
 function protectUrl() {
     let token = localStorage.getItem('token');
-    ajaxPromise('module/login/ctrl/ctrl_login.php?op=controlUser', 'POST', 'JSON', { 'token': token})
+    ajaxPromise(friendlyURL('?module=auth&op=controlUser'), 'POST', 'JSON', { 'token': token})
     .then(function(data) {
         // console.log(data);
         data == "correctUser" ? console.log("OK --> El usuario coincide con la sesion") : ( console.log("ERROR --> Acesso indebido"), $('#logout').click()) ;
@@ -121,7 +126,7 @@ function protectUrl() {
 
 function controlActivity() {
     let token = localStorage.getItem('token');
-    ajaxPromise('module/login/ctrl/ctrl_login.php?op=controlActivity', 'POST', 'JSON', { 'token': token})
+    ajaxPromise(friendlyURL('?module=auth&op=controlActivity'), 'POST', 'JSON', { 'token': token})
     .then(function(data) {
         // console.log(data);
         data == "inactivo" ? ( console.log(" usuario Inactivo"), $('#logout').click()) :  ( data == "activo" ? console.log('usuario Activo') : console.log("No hay usuario logueado") );
@@ -134,7 +139,7 @@ function controlActivity() {
 function checkTemporalToken() {
     let token_refresh = localStorage.getItem('token_refresh');
     let token_large = localStorage.getItem('token');
-    ajaxPromise('module/login/ctrl/ctrl_login.php?op=checkExpirationTokenRefresh', 'POST', 'JSON', { 'token_refresh': token_refresh, 'token_large': token_large })
+    ajaxPromise(friendlyURL('?module=auth&op=checkExpirationTokenRefresh'), 'POST', 'JSON', { 'token_refresh': token_refresh, 'token_large': token_large })
     .then(function(data) {
         data == "NotExpiredJWTRefresh" ? undefined : ( data == "ExpiredJWTRefresh" ? (console.log("Token refresh exp"), changeTokenRefresh()) : $('#logout').click()) ;
         // console.log(data);
@@ -157,7 +162,7 @@ function checkTemporalToken() {
 
 $(document).ready(function() {
     changeMenuAuth();
-    // click_logout();
-    // launchActivityData()
+    click_logout();
+    launchActivityData();
     // console.log("hola");
 })

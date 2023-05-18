@@ -52,6 +52,11 @@
     define('MODEL_SEARCH', SITE_ROOT. 'module/search/model/model/');
     define('JS_SEARCH', SITE_PATH . 'module/search/view/js/');
 
+    // MODEL AUTH
+    define('MODEL_AUTH', SITE_ROOT . '/module/auth/model/model/');
+    define('JS_AUTH', SITE_PATH . 'module/auth/view/js/');
+    
+
     // TEMPLATE //
     define('JS_TEMPLATE', SITE_PATH . 'view/assets/js/');
     define('VENDOR_TEMPLATE', SITE_PATH . 'view/assets/vendor/');
