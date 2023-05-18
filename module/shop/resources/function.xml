@@ -32,4 +32,20 @@
         <name>similar_cars</name>
         <uri>similar_cars</uri>
     </function>
+    <function>
+        <name>seeLastFilters</name>
+        <uri>seeLastFilters</uri>
+    </function>
+    <function>
+        <name>filters_token</name>
+        <uri>filters_token</uri>
+    </function>
+    <function>
+        <name>likes</name>
+        <uri>likes</uri>
+    </function>
+    <function>
+        <name>likesUser</name>
+        <uri>likesUser</uri>
+    </function>
 </functions>

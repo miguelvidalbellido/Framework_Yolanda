@@ -73,7 +73,7 @@ function changeMenuAuth() {
                 );
             data[0]['user_type'] == "admin" ? $('<li role="presentation"><a role="menuitem" tabindex="-1" href="index.php?page=ctrl_dashboard&op=launchView">Dashboard</a></li>').appendTo('#dropdown_user_menu') : undefined ;
             // Cargamos el carrito (de momento solo icono)
-            $('<a href="index.php?page=ctrl_shopCart&op=list"><i class="bi bi-cart fa-6x"></i></a>').appendTo('#loadShopCart');
+            $('<a href="' + friendlyURL("?module=shopCart") + '"><i class="bi bi-cart fa-6x"></i></a>').appendTo('#loadShopCart');
         }).catch(function() {
             console.log("Error al cargar data del usuarioooo");
         });
@@ -131,7 +131,7 @@ function controlActivity() {
         // console.log(data);
         data == "inactivo" ? ( console.log(" usuario Inactivo"), $('#logout').click()) :  ( data == "activo" ? console.log('usuario Activo') : console.log("No hay usuario logueado") );
     }).catch(function() {
-        console.log('Error promise protectUrl');
+        console.log('Error promise controlActivity');
     });
 }
 

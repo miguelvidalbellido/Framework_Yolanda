@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>BelliCar</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+  <!-- Librerias fuera del template -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.4/jquery-ui.css" />
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.js"></script>
+    	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+
+		
+		<!-- <link href="view/css/css_module_home.css" rel="stylesheets"> -->
+		<!-- CARGAMOS LA LIBRERIA DE UTILS PROPIA -->
+    <script src="<?php echo SITE_PATH ?>view/js/utils.js"></script>
+
+<!-- LIRERIAS PROPIAS PARA EL MODULO HOME -->
+<script src="<?php echo JS_SHOPCART ?>shopCart.js"></script>
+		<!-- TOASTR -->
+		<link href="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet" type="text/css"/>
+		<script src="//cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js"></script>
+    	<script type="text/javascript">
+        	$(function() {
+        		$('#fecha').datepicker({
+        			dateFormat: 'dd/mm/yy', 
+        			changeMonth: true, 
+        			changeYear: true, 
+        			yearRange: '1900:2016',
+        			onSelect: function(selectedDate) {
+        			}
+        		});
+        	});
+	    </script>
+
+
+  <!-- Favicons -->
+  <link href="<?php echo IMG_TEMPLATE ?>favicon.png" rel="icon">
+  <link href="<?php echo IMG_TEMPLATE ?>apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <!-- <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Jost:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet"> -->
+
+  <!-- Vendor CSS Files -->
+  <link href="<?php echo VENDOR_TEMPLATE ?>aos/aos.css" rel="stylesheet">
+  <link href="<?php echo VENDOR_TEMPLATE ?>bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="<?php echo VENDOR_TEMPLATE ?>bootstrap-icons/bootstrap-icons.css" rel="stylesheet">
+  <link href="<?php echo VENDOR_TEMPLATE ?>boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="<?php echo VENDOR_TEMPLATE ?>glightbox/css/glightbox.min.css" rel="stylesheet">
+  <link href="<?php echo VENDOR_TEMPLATE ?>remixicon/remixicon.css" rel="stylesheet">
+  <link href="<?php echo VENDOR_TEMPLATE ?>swiper/swiper-bundle.min.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="<?php echo CSS_TEMPLATE ?>style.css" rel="stylesheet">
+
+   <!-- Vendor JS Files -->
+   <script src="<?php echo VENDOR_TEMPLATE ?>aos/aos.js"></script>
+  <script src="<?php echo VENDOR_TEMPLATE ?>bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="<?php echo VENDOR_TEMPLATE ?>glightbox/js/glightbox.min.js"></script>
+  <script src="<?php echo VENDOR_TEMPLATE ?>isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="<?php echo VENDOR_TEMPLATE ?>swiper/swiper-bundle.min.js"></script>
+  <script src="<?php echo VENDOR_TEMPLATE ?>waypoints/noframework.waypoints.js"></script>
+  <script src="<?php echo VENDOR_TEMPLATE ?>php-email-form/validate.js"></script>
+
+  <!-- Template Main JS File -->
+  <script src="<?php echo JS_TEMPLATE ?>main.js"></script>
+
+
+  <!-- LIBRERIAS CAROUSEL -->
+  <!-- CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/swiper/swiper-bundle.min.css">
+
+  <!-- JS -->
+  <script src="https://unpkg.com/swiper/swiper-bundle.min.js"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/swiper@9/swiper-element-bundle.min.js"></script>
+
+  <!-- MAPBOX -->
+  <link href="https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.css" rel="stylesheet">
+  <script src="https://api.mapbox.com/mapbox-gl-js/v2.12.0/mapbox-gl.js"></script>
+
+  <!-- BOOTPAG -->
+  <script type="text/javascript" src="http://botmonster.com/jquery-bootpag/jquery.bootpag.js"></script>
+  <link rel="stylesheet" href="http://netdna.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+</head>
+
+<body>

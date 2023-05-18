@@ -138,5 +138,53 @@
         
         }
 
+        public function search_data_seeLastFilters($db, $username) {
+            $sql="SELECT his.filters
+            FROM historyfilters his
+            WHERE his.token_guest LIKE '%$username%' AND his.dateSearch = DATE(NOW())";
+            $stmt = $db -> execute($sql);
+            return $db -> list($stmt);
+        }
+
+        public function saveFilters($db, $filter) {
+            $sql="INSERT INTO `historyfilters` (`token_guest`, `dateSearch`, `filters`) VALUES (' $filter[0] ',NOW(),'";
+            for($i=0;$i<count($filter[1]);$i++){
+                if($i == count($filter[1]) - 1){
+                    $sql.=$filter[1][$i][0].",".$filter[1][$i][1];
+                }else if($i == 0){
+                    $sql.=$filter[1][$i][0].",".$filter[1][$i][1].":";
+                }else{
+                    $sql.=$filter[1][$i][0].",".$filter[1][$i][1].":";
+                }
+            }
+            $sql.="' );";
+
+            $stmt = $db -> execute($sql);
+        }
+
+        public function search_data_visits($db, $cod_car) {
+            $sql = "CALL increment_visits($cod_car);";
+
+            $stmt = $db -> executeForProcedures($sql);
+        }
+
+        public function search_data_get_likes($db, $username, $cod_car) {
+            $sql = "CALL likeOrDislike('$username',$cod_car,@result); "; 
+            $sql.= "SELECT @result AS 'result_operacion';";
+            // return $sql;
+
+            return $db -> executeForProcedures($sql);
+            // $stmt = $db -> executeForProcedures($sql);
+            // return $db -> list($stmt);
+        }
+
+        public function search_data_get_likesUser($db, $username) {
+            $sql = "SELECT cod_car
+                        FROM likes
+                        WHERE username LIKE '$username'";
+            $stmt = $db -> execute($sql);
+            return $db -> list($stmt);
+        }
+
     }
 ?>

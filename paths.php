@@ -56,6 +56,9 @@
     define('MODEL_AUTH', SITE_ROOT . '/module/auth/model/model/');
     define('JS_AUTH', SITE_PATH . 'module/auth/view/js/');
     
+    // MODEL SHOPCART
+    define('MODEL_SHOPCART', SITE_ROOT . '/module/shopCart/model/model/');
+    define('JS_SHOPCART', SITE_PATH . 'module/shopCart/view/js/');
 
     // TEMPLATE //
     define('JS_TEMPLATE', SITE_PATH . 'view/assets/js/');

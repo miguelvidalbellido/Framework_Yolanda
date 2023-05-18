@@ -58,7 +58,7 @@ function login() {
             let error = false;
             data == "error_username" ? ( $('#errorUsernameLogin').html('<br>El nombre de usuario introducido no existe'), error = true) : undefined;
             data == "error_password" ? ( $('#errorPasswordLogin').html('<br>Datos erroneos, revisa el nombre de usuario y la contraseña'), error = true) : undefined;
-            error == false ? ( localStorage.setItem("token", data['token_large']), localStorage.setItem("token_refresh", data['token_refresh']), toastr.success("Bienvenido de nuevo"), setTimeout(' window.location.href = "?module=home"; ', 1000) ) : undefined;
+            error == false ? ( localStorage.setItem("token", data['token_large']), localStorage.setItem("token_refresh", data['token_refresh']), toastr.success("Bienvenido de nuevo"), setTimeout("?module=shop", 1000) ) : undefined;
         }).catch(function() {
             console.log("error ajaxForSearch Login");
         });
@@ -168,9 +168,9 @@ const register = () => {
         ajaxPromise(friendlyURL("?module=auth&op=register"), 'POST', 'JSON', data)
         .then(function(data) {
             console.log(data);
-            // data == "error_mail" ? $('#errorMail').html('<br>El emial introduccido ya esta en uso') : undefined;
-            // data == "error_username" ? $('#errorUsername').html('<br>El username introduccido no esta disponible') : undefined;
-            // data == "ok_insert" ? (toastr.success("Registery succesfully"), setTimeout($('#selecForm').text('Register'), $('#form_register').hide(), $('#form_login').show() ,1000)) : undefined;
+            data == "error_mail" ? $('#errorMail').html('<br>El emial introduccido ya esta en uso') : undefined;
+            data == "error_username" ? $('#errorUsername').html('<br>El username introduccido no esta disponible') : undefined;
+            data == "ok_insert" ? (toastr.success("Registery succesfully"), setTimeout($('#selecForm').text('Register'), $('#form_register').hide(), $('#form_login').show() ,1000)) : undefined;
         }).catch(function() {
             console.log("error ajaxForSearch Register");
         });

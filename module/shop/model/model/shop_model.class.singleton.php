@@ -46,5 +46,22 @@
             return $this -> bll -> get_similar_cars_BLL($args);
         }
 
+        public function seeLastFilters($args) {
+            return $this -> bll -> get_seeLastFilters_BLL($args);
+        }
+
+        public function filters_token($args) {
+            // return $args[0][0];
+            return $this -> bll -> get_filters_token_BLL($args);
+        }
+
+        public function get_likes($args) {
+            return $this -> bll -> get_likes_BLL($args);
+        }
+
+        public function get_likesUser($args) {
+            return $this -> bll -> get_likesUser_BLL($args);
+        }
+
     }
 ?>

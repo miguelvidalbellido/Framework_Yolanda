@@ -49,7 +49,7 @@ function loadCars(total_prod = 0, items_page=4) {
                 highlightFilter();
             }else if(checkLastFilters != false){
                 ajaxForSearch("?module=shop&op=cars", undefined, total_prod, items_page);
-                // loadPreviousSearches();
+                loadPreviousSearches();
             }else{
                 ajaxForSearch("?module=shop&op=cars", undefined, total_prod, items_page);
             }
@@ -73,41 +73,42 @@ function getGuestToken(){
         // console.log("Token - [OK]");
         
         if(token) {
-            ajaxPromise("module/login/ctrl/ctrl_login.php?op=dataUser", 'POST', 'JSON', { 'token': token })
+            ajaxPromise(friendlyURL("?module=auth&op=dataUser"), 'POST', 'JSON', { 'token': token })
             .then(function (data) { 
                 let username = data[0]['username'];
-                ajaxPromise("module/shop/ctrl/ctrl_shop.php?op=seeLastFilters", 'POST', 'JSON', { 'token': username })
-        .then(function(data) {
-            if(data != "error"){
-                var lastFilters = [];
-                checkLastFilters = true;
+                ajaxPromise(friendlyURL('?module=shop&op=seeLastFilters'), 'POST', 'JSON', { 'token': username })
+                .then(function(data) {
+                    // console.log(data);
+                    if(data != "error"){
+                        var lastFilters = [];
+                        checkLastFilters = true;
 
-                for(row in data){
-                    let str = data[row].filters;
-                    let arr = str.split(':');
-                    let tmp = [];
-                    for(i=0;i<arr.length; i++){
-                        tmp = tmp.concat([arr[i].split(",")]);
+                        for(row in data){
+                            let str = data[row].filters;
+                            let arr = str.split(':');
+                            let tmp = [];
+                            for(i=0;i<arr.length; i++){
+                                tmp = tmp.concat([arr[i].split(",")]);
 
+                            }
+                            tmp = [tmp];
+                            lastFilters = lastFilters.concat(tmp);
+                        }
+                        localStorage.removeItem('last_filters');
+                        localStorage.setItem('last_filters', JSON.stringify(lastFilters));
                     }
-                    tmp = [tmp];
-                    lastFilters = lastFilters.concat(tmp);
+                    resolve(checkLastFilters);
+                    
+                }).catch(function() {
+                    console.log("error ajaxForSearch seeLASTfILTERS");
+                    resolve("false");
+                });
+                    }).catch(function() {
+                        console.log("Error al cargar data del usuario");
+                    });
+                }else{
+                    resolve("false");
                 }
-                localStorage.removeItem('last_filters');
-                localStorage.setItem('last_filters', JSON.stringify(lastFilters));
-            }
-            resolve(checkLastFilters);
-            
-        }).catch(function() {
-            console.log("error ajaxForSearch");
-            resolve("false");
-        });
-            }).catch(function() {
-                console.log("Error al cargar data del usuario");
-            });
-        }else{
-            resolve("false");
-        }
     }
     });
 }
@@ -163,7 +164,7 @@ function filter_button(){
 
         $('#highlight_searchs').empty();
         if(token_usr) {
-            ajaxPromise("module/login/ctrl/ctrl_login.php?op=dataUser", 'POST', 'JSON', { 'token': token_usr })
+            ajaxPromise(friendlyURL('?module=auth&op=dataUser'), 'POST', 'JSON', { 'token': token_usr })
             .then(function (data) { 
                 console.log(data);
                 token = [data[0]['username']];
@@ -171,7 +172,8 @@ function filter_button(){
                 $('#highlight_searchs').empty();
             highlightFilter();
             // ajaxForSearch("module/shop/ctrl/ctrl_shop.php?op=filters_token", filterWithToken);
-            ajaxForSearch("module/shop/ctrl/ctrl_shop.php?op=filters_token", filterWithToken);
+            console.log("heeeeey");
+            ajaxForSearch('?module=shop&op=filters_token', filterWithToken);
             saveFiltersAppliedForShort(filterWithToken[1]);
             pagination();
             }).catch(function() {
@@ -338,7 +340,7 @@ function ajaxForSearch(url,filter,total_prod = 0, items_page = 3){
     ajaxPromise(friendlyURL(url), 'POST', 'JSON', { 'filter': filter, 'total_prod': total_prod, 'items_page': items_page  })
     .then(function(data) {
         $('#list_cars1').empty();
-        // console.log(data);
+        console.log(data);
         if (data.length === 0) {
             $('<div></div>').appendTo('#list_cars1')
                 .html(
@@ -559,7 +561,7 @@ function details_car(cod_car) {
                 "</div>"
             )
         mapBox(data_car);
-        // loadLikes(localStorage.getItem('token'));
+        loadLikes(localStorage.getItem('token'));
         // controlCart();
     }).catch(function() {
     console.log("Error load details");
@@ -646,6 +648,109 @@ function loadSimiarCars(id){
         }
     
     }
+
+    // ==================== LAST SEARCHS ==================== //
+function loadPreviousSearches(){
+    var checkFilters = JSON.parse(localStorage.getItem('last_filters')) || false;
+    
+    if(checkFilters != false){
+        $('#highlight_searchs').empty();
+        $('<p>Busquedas anteriores</p>').attr('class', "p-2 p-highlight").appendTo('#highlight_searchs').html();
+    }
+    loadContentModalLastFilters();
+}
+
+function modalSearchs(){
+        // $("#details_car").show();
+        $("#view_searchs").dialog({
+            title: "Mis búsquedas recientes",
+            width : 850,
+            height: 500,
+            resizable: "false",
+            modal: "true",
+            hide: "fold",
+            show: { effect: "blind", duration: 800 },
+        });
+}
+
+function loadContentModalLastFilters() {
+    $(document).on('click', '#highlight_searchs', function(){
+        
+        var all_searchs = JSON.parse(localStorage.getItem('last_filters'))
+        // console.log(all_searchs);
+        $('#view_searchs').empty();
+        for (var i = 0; i < all_searchs.length; i++){
+            modalSearchs($('<p>'+all_searchs[i]+'</p>').attr('value', i).attr('class', "p-2 p-highlight text-center bg-light font-weight-bold rounded ").attr('id', "search").appendTo('#view_searchs').html()); 
+            saveFiltersAppliedForShort(all_searchs);
+        }
+        
+    });
+
+    // Cuando el cliente realize click recuperamos el value (posicion que queremos del array)
+    // Obtenemos el contendio y lo pasamos a ajaxforsearch y recargamos la pagina
+    $(document).on('click', '#search', function(){
+        // Obtenemos el valor de i en el array
+        var positionArrayFilter = this.getAttribute('value');
+
+        // Obtenemos el array con los filtros correspondientes
+        var allFilters = JSON.parse(localStorage.getItem('last_filters'));
+
+        if (allFilters[positionArrayFilter].length != 0) {
+            ajaxForSearch("?module=shop&op=filter", allFilters[positionArrayFilter],0,4);
+            saveFiltersAppliedForShort(allFilters[positionArrayFilter]);
+            pagination();
+            // $('#view_searchs').hide();
+            localStorage.removeItem('filter');
+            localStorage.setItem('filter', JSON.stringify(allFilters[positionArrayFilter]));
+            $('#highlight_searchs').empty();
+            $("#view_searchs").dialog("close");
+            highlightFilter();
+        }
+        
+    });
+}
+
+// ==================== LIKES ====================  //
+
+function likes(cod_car){
+    // NI HA TOKEN MIREM EL LIKE
+    let token = localStorage.getItem('token');
+    if(token){
+        ajaxPromise(friendlyURL('?module=auth&op=dataUser'),'POST', 'JSON', { 'token': token })
+            .then(function(data) {
+            let username = data[0]['username'];
+            ajaxPromise(friendlyURL('?module=shop&op=likes'),'POST', 'JSON', { 'token': username, 'cod_car': cod_car })
+            .then(function(data) {
+                // console.log();
+                let opc = data[0][0]['result_operacion'];
+                opc == "LIKE" ? ( $('i[id="'+cod_car+'"]').removeClass('text-primary'), $('i[id="'+cod_car+'"]').addClass('text-danger') ) : ( $('i[id="'+cod_car+'"]').removeClass('text-danger'), $('i[id="'+cod_car+'"]').addClass('text-primary') );
+            });
+        });
+        
+    }else{
+        localStorage.setItem('codCarPreLogin', cod_car);
+        window.location.href = "?module=auth";
+    }
+
+}
+
+function loadLikes(token){
+
+    ajaxPromise(friendlyURL('?module=auth&op=dataUser'),'POST', 'JSON', { 'token': token })
+    .then(function(data) {
+    let username = data[0]['username'];
+    // console.log(username);
+        ajaxPromise(friendlyURL('?module=shop&op=likesUser'),'POST', 'JSON', { 'token': username })
+        .then(function(data) {
+            // console.log(data);
+            if(data != "error"){
+                data.forEach(function(elemento) {
+                    $('i[id="' + elemento['cod_car'] + '"]').removeClass('text-primary').addClass('text-danger');
+                });
+            }
+        });
+    });
+}
 
 $(document).ready(function() {
     loadLateralMenu();

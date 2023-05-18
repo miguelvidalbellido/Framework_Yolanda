@@ -33,6 +33,7 @@
 		}
 
 		public function get_details_car_BLL($args) {
+			$this -> dao -> search_data_visits($this -> db, $args);
 			$rdo = array();
 			$rdo[0][] =  $this -> dao -> search_data_details_car($this -> db, $args);
 			$rdo[1][] = $this -> dao -> search_data_img_details_car($this -> db, $args);
@@ -55,6 +56,23 @@
 
 		public function get_similar_cars_BLL($args) {
 			return $this -> dao -> search_data_similar_cars($this -> db, $args[0]);
+		}
+
+		public function get_seeLastFilters_BLL($args) {
+			return $this -> dao -> search_data_seeLastFilters($this -> db, $args);
+		}
+
+		public function get_filters_token_BLL($args) {
+			$this -> dao -> saveFilters($this -> db, $args[0]); // Almacenamos en history
+			return $this -> dao -> search_data_filters($this -> db, $args[0][1], $args[1], $args[2]);
+		}
+
+		public function get_likes_BLL($args) {
+			return $this -> dao -> search_data_get_likes($this -> db, $args[0], $args[1]);
+		}
+
+		public function get_likesUser_BLL($args) {
+			return $this -> dao -> search_data_get_likesUser($this -> db, $args);
 		}
     }
 ?>

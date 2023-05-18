@@ -20,4 +20,8 @@
         <name>auth</name>
         <uri>auth</uri>
     </module>
+    <module>
+        <name>shopCart</name>
+        <uri>shopCart</uri>
+    </module>
 </modules>

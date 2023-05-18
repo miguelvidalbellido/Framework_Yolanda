@@ -33,7 +33,7 @@
             echo json_encode(common::load_model('auth_model', 'get_logout'));
         }
         function controlUser() {
-            echo json_encode(common::load_model('auth_model', 'get_controlUser'));
+            echo json_encode(common::load_model('auth_model', 'get_controlUser',$_POST['token']));
         }
         function checkExpirationTokenRefresh() {
             echo json_encode(common::load_model('auth_model', 'get_checkExpirationTokenRefresh', [ $_POST['token_refresh'], $_POST['token_large ']]));

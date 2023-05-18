@@ -54,5 +54,20 @@
             echo json_encode(common::load_model('shop_model', 'similar_cars', $_POST['id']));
         }
 
+        function seeLastFilters() {
+            echo json_encode(common::load_model('shop_model', 'seeLastFilters', $_POST['token']));
+        }
+
+        function filters_token() {
+            echo json_encode(common::load_model('shop_model', 'filters_token', [ $_POST['filter'], $_POST['total_prod'],$_POST['items_page'] ]));
+        }
+
+        function likes() {
+            echo json_encode(common::load_model('shop_model', 'get_likes', [ $_POST['token'], $_POST['cod_car']]));
+        }
+
+        function likesUser() {
+            echo json_encode(common::load_model('shop_model', 'get_likesUser', $_POST['token']));
+        }
     }
 ?>
