@@ -4,4 +4,32 @@
         <name>view</name>
         <uri>view</uri>
     </function>
+    <function>
+        <name>checkStock</name>
+        <uri>checkStock</uri>
+    </function>
+    <function>
+        <name>addToCartFromDetails</name>
+        <uri>addToCartFromDetails</uri>
+    </function>
+    <function>
+        <name>loadCart</name>
+        <uri>loadCart</uri>
+    </function>
+    <function>
+        <name>loadDetailsCheckout</name>
+        <uri>loadDetailsCheckout</uri>
+    </function>
+    <function>
+        <name>changeCart</name>
+        <uri>changeCart</uri>
+    </function>
+    <function>
+        <name>removeProduct</name>
+        <uri>removeProduct</uri>
+    </function>
+    <function>
+        <name>checkout</name>
+        <uri>checkout</uri>
+    </function>
 </functions>

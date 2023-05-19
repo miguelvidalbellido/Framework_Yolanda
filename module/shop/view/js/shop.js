@@ -562,7 +562,7 @@ function details_car(cod_car) {
             )
         mapBox(data_car);
         loadLikes(localStorage.getItem('token'));
-        // controlCart();
+        controlCart();
     }).catch(function() {
     console.log("Error load details");
 });
@@ -748,6 +748,101 @@ function loadLikes(token){
                     $('i[id="' + elemento['cod_car'] + '"]').removeClass('text-primary').addClass('text-danger');
                 });
             }
+        });
+    });
+}
+
+// ==================== ADD PRODUCT DETAILS TO SHOP ====================  //
+
+const controlCart = () => {
+    incrementProducts();
+    decreaseProducts();
+    addToCart();
+}
+
+const addToCart = () => {
+    $(document).on("click", "#addToCart", function() {
+        let token = localStorage.getItem('token');
+        if(token){
+            let id_car = $('#addToCart').data("codcar");
+            let value = parseInt($('#quantityProductDetails').text());
+            value == 0 ? undefined : promiseAdd(id_car, value);
+            // console.log(id_car);
+            // console.log(value);
+        }else {
+            // console.log('redireccionem a login');
+            let id_car = $('#addToCart').data("codcar");
+            localStorage.setItem('codCarPreAddToCart', id_car);
+            window.location.href = friendlyURL("?module=auth");
+        }
+        
+    }); 
+
+    const promiseAdd = (cod_car, quantity) => {
+        let token = localStorage.getItem('token') || false;
+        if(token == false){
+            console.log('Redireccionamos a login');
+        }else {
+            ajaxPromise(friendlyURL('?module=auth&op=dataUser'), 'POST', 'JSON', { 'token': token })
+            .then(function (data) { 
+                let username = data[0]['username'];
+                // console.log(username);
+                ajaxPromise(friendlyURL('?module=shopCart&op=addToCartFromDetails'), 'POST', 'JSON', { 'username': username, 'cod_car': cod_car, 'quantity': quantity })
+                .then(function (data) { 
+                    let resultado = data[0][0].resultado;
+                    resultado == "addCartOK" ? toastr.error('El producto ha sido añadido al carrito de forma exitosa') : toastr.error('El stock es insuficiente, modifica la cantidad ');
+                });
+
+            });
+        }
+    }
+
+};
+
+const incrementProducts = () => {
+    $(document).on("click", "#moreProduct", function() {
+        let value = parseInt($('#quantityProductDetails').text());
+        let id_car = $('#quantityProductDetails').data("codcar");
+        // console.log(id_car)
+        (async () => {
+            try {
+                quantity = await checkMaxStock(id_car);
+                value < quantity ? $('#quantityProductDetails').text(value+1) : toastr.error('Solo puedes añadir al carrito '+quantity+' unidades');
+            } catch (error) {
+                console.log(error);
+            }
+        })();
+        
+    });
+};
+
+const decreaseProducts = () => {
+    $(document).on("click", "#lessProduct", function() {
+        let value = parseInt($('#quantityProductDetails').text());
+        let id_car = $('#quantityProductDetails').data("codcar");
+        let quantity;
+        // obtenemos el valor de quantity stock
+        (async () => {
+            try {
+                quantity = await checkMaxStock(id_car);
+                value != 0 ? $('#quantityProductDetails').text(value-1) : undefined;
+            } catch (error) {
+                console.log(error);
+            }
+        })();
+    });
+}
+
+const checkMaxStock = (codCar) => {
+        return new Promise((resolve, reject) => {
+            ajaxPromise(friendlyURL('?module=shopCart&op=checkStock'), 'POST', 'JSON', { 'id_car': codCar })
+        .then(function (data) {
+            // console.log(data[0].quantity);
+            resolve(data[0].quantity);
+        })
+        .catch(function() {
+            console.log("error ajaxForSearch CheckStock");
+            reject("error ajaxForSearch CheckStock");
         });
     });
 }
