@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<functions>
+    <function>
+        <name>view</name>
+        <uri>view</uri>
+    </function>
+    <function>
+        <name>chartBrandMostVisited</name>
+        <uri>chartBrandMostVisited</uri>
+    </function>
+    <function>
+        <name>chartBodyworkMostVisited</name>
+        <uri>chartBodyworkMostVisited</uri>
+    </function>
+    <function>
+        <name>chartUserRegistration</name>
+        <uri>chartUserRegistration</uri>
+    </function>
+    <function>
+        <name>chartFuelMostVisited</name>
+        <uri>chartFuelMostVisited</uri>
+    </function>
+    <function>
+        <name>dataUsers</name>
+        <uri>dataUsers</uri>
+    </function>
+    <function>
+        <name>deleteUser</name>
+        <uri>deleteUser</uri>
+    </function>
+    <function>
+        <name>dataOneUser</name>
+        <uri>dataOneUser</uri>
+    </function>
+    <function>
+        <name>updateUser</name>
+        <uri>updateUser</uri>
+    </function>
+</functions>

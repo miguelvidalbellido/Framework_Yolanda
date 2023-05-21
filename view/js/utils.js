@@ -71,7 +71,7 @@ function changeMenuAuth() {
                     '<li role="presentation" class="divider"></li>'+
                     '<li role="presentation"><a role="menuitem" tabindex="-1" href="#">Menu item 4</a></li>'
                 );
-            data[0]['user_type'] == "admin" ? $('<li role="presentation"><a role="menuitem" tabindex="-1" href="index.php?page=ctrl_dashboard&op=launchView">Dashboard</a></li>').appendTo('#dropdown_user_menu') : undefined ;
+            data[0]['user_type'] == "admin" ? $('<li role="presentation"><a role="menuitem" tabindex="-1" href="' + friendlyURL("?module=dashboard") + '">Dashboard</a></li>').appendTo('#dropdown_user_menu') : undefined ;
             // Cargamos el carrito (de momento solo icono)
             $('<a href="' + friendlyURL("?module=shopCart") + '"><i class="bi bi-cart fa-6x"></i></a>').appendTo('#loadShopCart');
         }).catch(function() {

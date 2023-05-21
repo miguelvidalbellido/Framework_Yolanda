@@ -42,6 +42,7 @@
     // MODEL_HOME // 
     define('JS_VIEW_HOME', SITE_PATH . 'module/home/view/js/');
     define('MODEL_HOME', SITE_ROOT. 'module/home/model/model/');
+    define('VISTA_HOME', SITE_PATH.'module/home/view/home.html');
 
     // MODEL_SHOP
     define('MODEL_SHOP', SITE_ROOT. 'module/shop/model/model/');
@@ -59,6 +60,10 @@
     // MODEL SHOPCART
     define('MODEL_SHOPCART', SITE_ROOT . '/module/shopCart/model/model/');
     define('JS_SHOPCART', SITE_PATH . 'module/shopCart/view/js/');
+
+    // MODEL DASHBOARD
+    define('MODEL_DASHBOARD', SITE_ROOT . '/module/dashboard/model/model/');
+    define('JS_DASHBOARD', SITE_PATH . 'module/dashboard/view/js/');
 
     // TEMPLATE //
     define('JS_TEMPLATE', SITE_PATH . 'view/assets/js/');

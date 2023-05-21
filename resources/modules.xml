@@ -24,4 +24,8 @@
         <name>shopCart</name>
         <uri>shopCart</uri>
     </module>
+    <module>
+        <name>dashboard</name>
+        <uri>dashboard</uri>
+    </module>
 </modules>
