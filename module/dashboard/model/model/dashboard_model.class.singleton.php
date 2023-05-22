@@ -1,5 +1,5 @@
 <?php
-    require_once(SITE_ROOT . 'module/dashboard/model/BLL/dashboard_bll.class.singleton.php');
+    // require_once(SITE_ROOT . 'module/dashboard/model/BLL/dashboard_bll.class.singleton.php');
     class dashboard_model {
 
         private $bll;
@@ -47,8 +47,15 @@
         }
 
         public function get_updateUser($args) {
-            return "dsadsad";
-            // return $this -> bll -> get_updateUser_BLL($args);
+            return $this -> bll -> get_updateUser_BLL($args);
+        }
+
+        public function get_cantUsers() {
+            return $this -> bll -> get_cantUsers_BLL();
+        }
+
+        public function get_cantBusquedasDiarias() {
+            return $this -> bll -> get_cantBusquedasDiarias_BLL();
         }
     }
 ?>

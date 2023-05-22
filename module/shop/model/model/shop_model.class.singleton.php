@@ -1,5 +1,5 @@
 <?php
-    require_once(SITE_ROOT . 'module/shop/model/BLL/shop_bll.class.singleton.php');
+    // require_once(SITE_ROOT . 'module/shop/model/BLL/shop_bll.class.singleton.php');
     
     class shop_model {
         private $bll;

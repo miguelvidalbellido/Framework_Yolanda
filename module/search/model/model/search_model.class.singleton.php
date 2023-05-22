@@ -1,5 +1,5 @@
 <?php
-    require_once(SITE_ROOT . 'module/search/model/BLL/search_bll.class.singleton.php');
+    // require_once(SITE_ROOT . 'module/search/model/BLL/search_bll.class.singleton.php');
     class search_model {
 
         private $bll;

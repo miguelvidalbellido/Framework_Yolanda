@@ -1,5 +1,5 @@
 <?php
-    require_once(SITE_ROOT . 'module/shopCart/model/BLL/shopCart_bll.class.singleton.php');
+    // require_once(SITE_ROOT . 'module/shopCart/model/BLL/shopCart_bll.class.singleton.php');
     class shopCart_model {
 
         private $bll;
@@ -43,5 +43,6 @@
         public function get_checkout($args) {
             return $this -> bll -> get_checkout_BLL($args);
         }
+
     }
 ?>

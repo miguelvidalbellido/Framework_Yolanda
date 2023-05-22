@@ -73,5 +73,40 @@
             $stmt = $db -> execute($sql);
             return $db -> list($stmt);
         }
+
+        public function checkUsernameUpdate($db, $username_new, $username_old) {
+            $sql = "SELECT COUNT(*) AS 'existe' FROM users WHERE username LIKE '$username_new' AND username NOT LIKE '$username_old'";
+
+            $stmt = $db -> execute($sql);
+            return $db -> list($stmt);
+        }
+
+        public function checkEmailUpdate($db, $email_new, $email_old) {
+            $sql = "SELECT COUNT(*) AS 'existe_mail' FROM users WHERE email LIKE '$email_new' AND email NOT LIKE '$email_old'";
+
+            $stmt = $db -> execute($sql);
+            return $db -> list($stmt);
+        }
+
+        public function updateUser($db, $username_old, $username_new, $email , $password, $d_birth){
+            $sql = "UPDATE users u SET u.username = '$username_new', u.password = '$password', u.email = '$email', u.d_birth = $d_birth WHERE u.username = '$username_old'; ";
+            
+            return $db -> execute($sql);
+            // return $db -> list($stmt);
+        }
+
+        public function select_data_get_cantUsers($db) {
+            $sql = "SELECT COUNT(*) AS 'cantUsers' FROM users";
+            
+            $stmt = $db -> execute($sql);
+            return $db -> list($stmt);
+        }
+
+        public function select_data_get_cantBusquedasDiarias($db) {
+            $sql = "SELECT COUNT(*) AS 'cantSearchs' FROM historyfilters WHERE dateSearch = CURDATE(); ";
+            
+            $stmt = $db -> execute($sql);
+            return $db -> list($stmt);
+        }
     }
 ?>

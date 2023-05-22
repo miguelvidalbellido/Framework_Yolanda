@@ -48,6 +48,8 @@
             echo json_encode(common::load_model('shopCart_model', 'get_checkout',  $_POST['username'] ));
             
         }
+
+
     }
 
 ?>

@@ -1,6 +1,6 @@
 <?php
-    require_once(SITE_ROOT . 'module/dashboard/model/DAO/dashboard_dao.class.singleton.php');
-	require_once(MODEL_PATH . 'db.class.singleton.php');
+    // require_once(SITE_ROOT . 'module/dashboard/model/DAO/dashboard_dao.class.singleton.php');
+	// require_once(MODEL_PATH . 'db.class.singleton.php');
 
 	class dashboard_bll {
 		private $dao;
@@ -98,16 +98,39 @@
 
         public function get_updateUser_BLL($args) {
             // STRING TO ARRAY
-            $delimiter = "&";
-            $delimiter_intero = '=';
-            $res = explode($delimiter, $args);
-            $resultado = array();
-            foreach ($res as $elemento) {
-                array_push($resultado, explode($delimiter_intero, $elemento));
-            } 
+            // $delimiter = "&";
+            // $delimiter_intero = '=';
+            // $res = explode($delimiter, $args);
+            // $resultado = array();
+            // foreach ($res as $elemento) {
+            //     array_push($resultado, explode($delimiter_intero, $elemento));
+            // } 
 
+            // Verificamos el usuario
+            $existsUser = $this -> dao -> checkUsernameUpdate($this -> db, $args[0], $args[1]);
+            if($existsUser[0]['existe'] == 1){ return 'Username_no_valido'; exit; }
+
+            // Verificamos el email
+            $existsMail = $this -> dao -> checkEmailUpdate($this -> db, $args[2], $args[3]);
+            if($existsMail[0]['existe_mail'] == 1){ return 'Email_no_valido'; exit; }
+
+            // Verificamos la contraseña
+            if($args[4] == $args[5]) {
+                $password = $args[5];
+            } else {
+                $password = password_hash($args[4], PASSWORD_DEFAULT, ['cost' => 12]);
+            }
             
-            return $args;
+            // Aplicamos las modificaciones
+            return $this -> dao -> updateUser($this -> db, $args[1], $args[0], $args[2], $password, $args[6]);
+        }
+
+        public function get_cantUsers_BLL() {
+            return $this -> dao -> select_data_get_cantUsers($this -> db);
+        } 
+
+        public function get_cantBusquedasDiarias_BLL() {
+            return $this -> dao -> select_data_get_cantBusquedasDiarias($this -> db);
         }
 	}
 ?>

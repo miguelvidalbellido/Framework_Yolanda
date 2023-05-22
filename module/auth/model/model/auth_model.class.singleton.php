@@ -1,5 +1,5 @@
 <?php
-    require_once(SITE_ROOT . 'module/auth/model/BLL/auth_bll.class.singleton.php');
+    // require_once(SITE_ROOT . 'module/auth/model/BLL/auth_bll.class.singleton.php');
     class auth_model {
 
         private $bll;

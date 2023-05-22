@@ -44,9 +44,17 @@
         function dataOneUser() {
             echo json_encode(common::load_model('dashboard_model', 'get_dataOneUser', $_POST['username']));
         }
+        
+
+        // STATS USERS //
         function updateUser() {
-            // echo json_encode($_POST['dataForm']);
-            echo json_encode(common::load_model('dsashboard_model', 'get_updateUser', $_POST['dataForm']));
+            echo json_encode(common::load_model('dashboard_model', 'get_updateUser', [ $_POST['usernameRegister'], $_POST['usernameRegisterDb'], $_POST['emailRegister'], $_POST['emailRegisterDb'], $_POST['passwordRegister'] ,$_POST['passwordRegisterDb'], $_POST['f_nacimientoRegister'] ]));
+        }
+        function cantUsers() {
+            echo json_encode(common::load_model('dashboard_model', 'get_cantUsers'));
+        }
+        function cantBusquedasDiarias() {
+            echo json_encode(common::load_model('dashboard_model', 'get_cantBusquedasDiarias'));
         }
 	}
 ?>

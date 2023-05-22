@@ -68,7 +68,7 @@ function getGuestToken(){
     var token = localStorage.getItem('token') || false;
     if(token == false){
         resolve("false");
-        console.log("El usuario no esta registrado");
+        // console.log("El usuario no esta registrado");
     }else{
         // console.log("Token - [OK]");
         
@@ -166,13 +166,13 @@ function filter_button(){
         if(token_usr) {
             ajaxPromise(friendlyURL('?module=auth&op=dataUser'), 'POST', 'JSON', { 'token': token_usr })
             .then(function (data) { 
-                console.log(data);
+                // console.log(data);
                 token = [data[0]['username']];
                 filterWithToken = token.concat([filter]);
                 $('#highlight_searchs').empty();
             highlightFilter();
             // ajaxForSearch("module/shop/ctrl/ctrl_shop.php?op=filters_token", filterWithToken);
-            console.log("heeeeey");
+
             ajaxForSearch('?module=shop&op=filters_token', filterWithToken);
             saveFiltersAppliedForShort(filterWithToken[1]);
             pagination();
@@ -196,7 +196,7 @@ function filter_button(){
 function detectChangeShort(){
     $(document).on('change', '#order', function () {
         let short = $(this).val();
-        console.log(short);
+        // console.log(short);
 
 
         let filtrosAplicados = JSON.parse(localStorage.getItem('filters_applied')); 
@@ -340,7 +340,7 @@ function ajaxForSearch(url,filter,total_prod = 0, items_page = 3){
     ajaxPromise(friendlyURL(url), 'POST', 'JSON', { 'filter': filter, 'total_prod': total_prod, 'items_page': items_page  })
     .then(function(data) {
         $('#list_cars1').empty();
-        console.log(data);
+        // console.log(data);
         if (data.length === 0) {
             $('<div></div>').appendTo('#list_cars1')
                 .html(

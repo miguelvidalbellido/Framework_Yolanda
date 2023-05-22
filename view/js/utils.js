@@ -95,7 +95,7 @@ function click_logout() {
             localStorage.removeItem('token');
             localStorage.removeItem('token_refresh');
             toastr.success("Logout succesfully");
-            window.location.href = "?module=shop";
+            window.location.href = friendlyURL('?module=shop');
             // console.log('logout');
         }).catch(function() {
             console.log('Error logout promise');

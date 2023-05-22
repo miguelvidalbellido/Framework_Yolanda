@@ -203,6 +203,7 @@ const pedidoOK = () =>{
             );
 }
 
+
   $(document).ready(function() {
     loadCart();
     // console.log("ye batiste");

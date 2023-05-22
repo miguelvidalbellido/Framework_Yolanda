@@ -1,6 +1,6 @@
 <?php
-    require_once(SITE_ROOT . 'module/shop/model/DAO/shop_dao.class.singleton.php');
-	require_once(MODEL_PATH . 'db.class.singleton.php');
+    // require_once(SITE_ROOT . 'module/shop/model/DAO/shop_dao.class.singleton.php');
+	// require_once(MODEL_PATH . 'db.class.singleton.php');
 
     class shop_bll {
         private $dao;

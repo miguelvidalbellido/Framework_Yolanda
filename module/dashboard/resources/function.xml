@@ -36,4 +36,12 @@
         <name>updateUser</name>
         <uri>updateUser</uri>
     </function>
+    <function>
+        <name>cantUsers</name>
+        <uri>cantUsers</uri>
+    </function>
+    <function>
+        <name>cantBusquedasDiarias</name>
+        <uri>cantBusquedasDiarias</uri>
+    </function>
 </functions>

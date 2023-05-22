@@ -1,6 +1,6 @@
 <?php
-    require_once(SITE_ROOT . 'module/auth/model/DAO/auth_dao.class.singleton.php');
-	require_once(MODEL_PATH . 'db.class.singleton.php');
+    // require_once(SITE_ROOT . 'module/auth/model/DAO/auth_dao.class.singleton.php');
+	// require_once(MODEL_PATH . 'db.class.singleton.php');
 
 	class auth_bll {
 		private $dao;
