@@ -19,6 +19,9 @@
         function view(){
             common::load_view('top_page_auth.html', 'C:/xampp/htdocs/FW_coches_net/module/auth/view/' . 'auth.html');
         }
+        function viewRecoverPass() {
+            common::load_view('top_page_auth.html', 'C:/xampp/htdocs/FW_coches_net/module/auth/view/' . 'recover_pass.html');
+        }
         function register(){
             echo json_encode(common::load_model('auth_model', 'get_register', [ $_POST['usernameRegister'],$_POST['emailRegister'],$_POST['passwordRegister'],$_POST['f_nacimientoRegister'] ]));
         }
@@ -43,6 +46,17 @@
         }
         function changeTokenRefres() {
             echo json_encode(common::load_model('auth_model', 'get_changeTokenRefres', $_POST['token']));
+        }
+        function verifyAccount() {
+            // echo json_encode($_POST['token_email']);
+            echo json_encode(common::load_model('auth_model', 'get_verifyAccount', $_POST['token_email']));
+        }
+        function recoverPassword() {
+            // echo json_encode($_POST['username']);
+            echo json_encode(common::load_model('auth_model', 'get_recoverPassword', $_POST['username']));
+        }
+        function changePassword() {
+            echo json_encode(common::load_model('auth_model', 'get_changePassword', [ $_POST['token_email'], $_POST['password'] ]));
         }
     }
 

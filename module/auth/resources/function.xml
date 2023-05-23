@@ -36,4 +36,20 @@
         <name>changeTokenRefres</name>
         <uri>changeTokenRefres</uri>
     </function>
+    <function>
+        <name>verifyAccount</name>
+        <uri>verifyAccount</uri>
+    </function>
+    <function>
+        <name>recoverPassword</name>
+        <uri>recoverPassword</uri>
+    </function>
+    <function>
+        <name>viewRecoverPass</name>
+        <uri>viewRecoverPass</uri>
+    </function>
+    <function>
+        <name>changePassword</name>
+        <uri>changePassword</uri>
+    </function>
 </functions>

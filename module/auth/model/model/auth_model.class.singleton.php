@@ -50,5 +50,17 @@
             return $this -> bll -> get_changeTokenRefres_BLL($args);
         }
 
+        public function get_verifyAccount($args) {
+            return $this -> bll -> get_verifyAccount_BLL($args);
+        }
+
+        public function get_recoverPassword($args) {
+            return $this -> bll -> get_recoverPassword_BLL($args);
+        }
+
+        public function get_changePassword($args) {
+            return $this -> bll -> get_changePassword_BLL($args);
+        }
+
     }
 ?>

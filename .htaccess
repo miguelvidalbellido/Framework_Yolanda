@@ -6,6 +6,12 @@ RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^([^/]*)/([^/]*)/([^/]*)/([^/]*)$ index.php?module=$1&op=$2&param=$3&param2=$4&param3=$5 [L,NC,QSA]
 
+# RewriteCond %{REQUEST_FILENAME} !-f
+# RewriteCond %{REQUEST_FILENAME} !-d
+# RewriteRule ^([^/]*)/([^/]*)/([^/]*)/([^/]*)$ index.php?module=$1&op=$2&param=$3&param2=$4 [L,NC,QSA]
+
+# Modificamos la opcion a view, para cargar el modulo auth cuando el usurio realize click
+# en las operaciones de verificar cuenta o recuperar contraseña.
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 RewriteRule ^([^/]*)/([^/]*)/([^/]*)/([^/]*)$ index.php?module=$1&op=$2&param=$3&param2=$4 [L,NC,QSA]

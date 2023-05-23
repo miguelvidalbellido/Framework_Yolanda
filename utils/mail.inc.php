@@ -16,14 +16,14 @@
                 case 'validate';
                     $email['fromEmail'] = 'bellidel.info@gmail.com';
                     $email['inputEmail'] = 'bellidel.info@gmail.com';
-                    $email['inputMatter'] = 'Email verification';
-                    $email['inputMessage'] = "<h2>Email verification.</h2><a href='http://localhost/FW_coches_net/index.php?module=contact&op=view'>Click here for verify your email.</a>";
+                    $email['inputMatter'] = 'Tu cuenta ha sido restringida';
+                    $email['inputMessage'] = "<h2>Verifica tu cuenta.</h2><a href='http://localhost/FW_coches_net/auth/view/verify/$email[token]'>Valida tu identidad realizando click en el enlace.</a>";
                     break;
                 case 'recover';
                     $email['fromEmail'] = 'bellido.clase@gmail.com';
                     $email['inputEmail'] = 'bellido.clase@gmail.com';
-                    $email['inputMatter'] = 'Recover password';
-                    $email['inputMessage'] = "<a href='http://localhost/FW_coches_net/index.php?module=contact&op=view'>Click here for recover your password.</a>";
+                    $email['inputMatter'] = 'Recuperar contraseña';
+                    $email['inputMessage'] = "<h2>Entra en el siguiente enlace para cambiar la contraseña.</h2><h3>En caso de no ser tu no dudes en ponerte en contacto, con el servicio de asistencia de Bellicar</h3><a href='http://localhost/FW_coches_net/auth/view/recover/$email[token]'>Modifica tu contraseña.</a>";
                     break;
             }
             return self::send_mailgun($email);

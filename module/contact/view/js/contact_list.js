@@ -86,6 +86,7 @@ const clickContact = () => {
 
 
 $(document).ready(function(){
+    $('.navbar_search').remove();
     clickContact();
     console.log("OK LOAD JS CONTACT");
 });

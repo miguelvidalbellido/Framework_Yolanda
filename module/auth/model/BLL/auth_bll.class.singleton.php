@@ -20,14 +20,36 @@
 		}
 		
 		public function get_register_BLL($args) {
-			return $this -> dao -> select_data_register($this -> db, $args[0], $args[1], $args[2], $args[3]);
+            $hashed_pass = password_hash($args[2], PASSWORD_DEFAULT, ['cost' => 12]);
+            $hashavatar = md5(strtolower(trim($args[1]))); 
+            $avatar = "https://i.pravatar.cc/500?u=$hashavatar";
+            $token_email = common::generate_Token_secure(20);
+			$rdo = $this -> dao -> select_data_register($this -> db, $args[0], $args[1], $hashed_pass, $args[3], $token_email, $avatar);
+
+            if($rdo[0][0]['resultado'] == "ok_insert") {
+                $message = [ 'type' => 'validate', 
+                				    'token' => $token_email, 
+                					'toEmail' =>  $args[1]];
+                $email = json_decode(mail::send_email($message), true); 
+                return $rdo;
+            }else {
+                return $rdo;
+            }
+
+            // Comprobe si el return es ok i faig el email
+            // $message = [ 'type' => 'validate', 
+			// 					'token' => $token_email, 
+			// 					'toEmail' =>  $args[0]];
+			// 	$email = json_decode(mail::send_email($message), true); 
 		}
         public function get_login_BLL($args) {
             $response = Array();
-            $response = ['error_username','error_password','login_ok'];
+            $response = ['error_username','error_password','login_ok', 'unverified_email'];
 
 			$rdo = $this -> dao -> select_data_login($this -> db, $args[0], $args[1]);
-            if($rdo[0][0]['resultado'] == "error_username"){ 
+            if($rdo[0][0]['resultado'] == "unverified_email"){
+                return $response[3];
+            } else if($rdo[0][0]['resultado'] == "error_username"){ 
                 return $response[0];
                 exit;
             } else if(password_verify($args[1], $rdo[0][0]['resultado'])) {
@@ -124,6 +146,35 @@
                 return "wrongUser";
                 exit;
             }
+        }
+
+        public function get_verifyAccount_BLL($token_email) {
+            return $this -> dao -> select_verifyAccount($this -> db, $token_email);
+            // return $token_email;
+        }
+
+        public function get_recoverPassword_BLL($username) {
+            // Deshabilitar inicio de sesion y añadir token_email
+            $token_email = common::generate_Token_secure(20);
+            $rdo = $this -> dao -> disableAccount($this -> db, $username, $token_email);
+            
+
+            if($rdo == true) {
+                $message = [ 'type' => 'recover', 
+                				    'token' => $token_email, 
+                					'toEmail' =>  $username];
+                $email = json_decode(mail::send_email($message), true); 
+                return $rdo;
+            }else {
+                return $rdo;
+            }
+        }
+
+        public function get_changePassword_BLL($args) {
+            $hashed_pass = password_hash($args[1], PASSWORD_DEFAULT, ['cost' => 12]);
+
+            return $this -> dao -> changePassword($this -> db, $hashed_pass, $args[0]);
+            // return $args;
         }
 	}
 ?>

@@ -615,7 +615,7 @@ function launcherDashboardForStats() {
 
     $('<div class="col-xl-12 col-sm-12 col-12 text-center bg-secondary"></div>').appendTo('#cards_estadistics')
         .html(
-            '<h2>Stats</h2>'
+            '<h2>Estadísticas generales</h2>'
         );
     brandMoreVisited();
     usersDateRegistration();
@@ -827,8 +827,8 @@ function launcherDashboardForStats() {
         });
 
     }
-
 }
+
 
 function launcher() {
     $(document).on("click", "#stats", function() {
@@ -838,6 +838,7 @@ function launcher() {
     $(document).on("click", "#users", function() {
         launcherDashboardForUsers();
     });
+
 }
 
 $(document).ready(function() {
