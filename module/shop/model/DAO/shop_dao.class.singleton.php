@@ -99,15 +99,9 @@
 
         // DETAILS CAR
         public function search_data_details_car($db, $cod_car) {
-            $sql = "SELECT c.cod_car,c.chassis_number, c.license_plate, c.km, c.price, c.price, c.enrollment_date,c.publication_date,c.doors,c.places,c.color,c.trunk_capacity,c.power, m.description AS 'model', 
-            b.description AS 'brand', s.description AS 'state', sh.description AS 'shifter', p.description AS 'population', pr.description AS 'province', cyl.description AS 'cylinder_capacity', bd.description AS 'bodywork', 
-            e.description AS 'environmental_label', t.description AS 'type_motor', loc.lon AS 'lon', loc.lat AS 'lat', i.url_image AS 'img'
-            FROM car c, model m, brand b, state s, population p, province pr, environmental_label e, type_motor t, cylinder_capacity cyl, bodywork bd, shifter sh, location loc, image i
-            WHERE m.cod_model = c.cod_model AND b.cod_brand = m.cod_brand AND s.cod_state = c.cod_state AND c.zip_code = p.zip_code AND pr.cod_province = p.cod_province AND c.cod_label = e.cod_label 
-            AND c.cod_typemotor = t.cod_fuel AND c.cod_cylinder AND c.cod_cylinder = cyl.cod_cylinder AND c.cod_bodywork = bd.cod_bodywork AND c.cod_shifter = sh.cod_shifter AND loc.cod_location = c.cod_location AND i.chassis_number = c.chassis_number
-            AND i.url_image LIKE '%/prtd-%'
-            AND c.cod_car = $cod_car;";
-            // return $sql;
+            $sql = "SELECT *
+            FROM data_details_car ddc
+            WHERE ddc.cod_car = $cod_car;";
             $stmt = $db -> execute($sql);
             return $db -> list($stmt);
         }
@@ -171,11 +165,8 @@
         public function search_data_get_likes($db, $username, $cod_car) {
             $sql = "CALL likeOrDislike('$username',$cod_car,@result); "; 
             $sql.= "SELECT @result AS 'result_operacion';";
-            // return $sql;
 
             return $db -> executeForProcedures($sql);
-            // $stmt = $db -> executeForProcedures($sql);
-            // return $db -> list($stmt);
         }
 
         public function search_data_get_likesUser($db, $username) {

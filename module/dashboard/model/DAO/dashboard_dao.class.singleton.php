@@ -92,7 +92,6 @@
             $sql = "UPDATE users u SET u.username = '$username_new', u.password = '$password', u.email = '$email', u.d_birth = $d_birth WHERE u.username = '$username_old'; ";
             
             return $db -> execute($sql);
-            // return $db -> list($stmt);
         }
 
         public function select_data_get_cantUsers($db) {
