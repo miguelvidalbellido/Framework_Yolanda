@@ -34,10 +34,6 @@
             $api_key = $mailgun['mailgun_credentials']['api_key'];
             $api_url = $mailgun['mailgun_credentials']['api_url'];
 
-            // echo json_encode($values);
-
-            // $api_key = 'f491add11b5010cad988d8c4b460fd1e-102c75d8-d0471a18';
-            // $api_url = 'https://api.mailgun.net/v3/sandbox58b45662302e48728242aa6d110275f0.mailgun.org/messages';
 
             $config = array();
             $config['api_key'] = $api_key; 
