@@ -53,5 +53,18 @@
             return $db -> execute($sql);
         }
 
+        public function selectDataSocialLogin($db, $uid) {
+            $sql = "SELECT * FROM users WHERE uid LIKE '$uid'";
+
+            $stmt = $db -> execute($sql);
+            return $db -> list($stmt);
+        }
+
+        public function insertDataSocialLogin($db, $uid, $username, $email, $avatar) {
+            // $sql = "INSERT INTO `users` (`id_user`, `username`, `password`, `email`, `d_birth`, `d_registration`, `avatar`, `user_type`, `token_email`, `isActive`, `uid`) VALUES (NULL, '$', '', '', '', '', NULL, '', '', '1', '$uid') "
+            $sql = "INSERT INTO users(username, password, email, d_birth, d_registration, avatar, user_type, token_email, isActive, uid) VALUES ('$username', '', '$email', '', NOW(), '$avatar', 'client', '', 1, '$uid')";
+            return $db -> execute($sql);
+        }
+
     }
 ?>

@@ -62,5 +62,10 @@
             return $this -> bll -> get_changePassword_BLL($args);
         }
 
+        public function get_social_login($args) {
+            // return $args;
+            return $this -> bll -> get_social_login_BBL($args);
+        }
+
     }
 ?>

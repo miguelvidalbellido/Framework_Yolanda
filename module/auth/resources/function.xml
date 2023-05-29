@@ -52,4 +52,8 @@
         <name>changePassword</name>
         <uri>changePassword</uri>
     </function>
+    <function>
+        <name>social_login</name>
+        <uri>social_login</uri>
+    </function>
 </functions>

@@ -14,11 +14,22 @@
     	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.0.0-beta1/jquery.js"></script>
     	<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 
+      <!-- LOGIN DE TERCEROS LIBRERIAS -->
+  <!-- <script src="https://www.gstatic.com/firebasejs/4.10.1/firebase.js"></script> -->
+    <!-- Firebase App (the core Firebase SDK) is always required and must be listed first -->
+    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-app.js"></script>
+    <!-- Add Firebase products that you want to use -->
+    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/6.2.0/firebase-firestore.js"></script>
+
 		<!-- LIRERIAS PROPIAS PARA EL MODULO HOME -->
+		<script src="<?php echo SITE_PATH ?>view/js/credentials.js"></script>
+
 	    <script src="<?php echo JS_AUTH ?>auth.js"></script>
 		<!-- <link href="view/css/css_module_home.css" rel="stylesheets"> -->
 		<!-- CARGAMOS LA LIBRERIA DE UTILS PROPIA -->
 		<script src="<?php echo SITE_PATH ?>view/js/utils.js"></script>
+
 		
 
 		<!-- TOASTR -->
@@ -80,7 +91,7 @@
 
   <script src="<?php echo SITE_PATH ?>view\swiperjs\slidehome.js"></script>
 
-
+  
 </head>
 
 <body>

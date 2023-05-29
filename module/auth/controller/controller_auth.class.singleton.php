@@ -58,6 +58,9 @@
         function changePassword() {
             echo json_encode(common::load_model('auth_model', 'get_changePassword', [ $_POST['token_email'], $_POST['password'] ]));
         }
+        function social_login() {
+            echo json_encode(common::load_model('auth_model', 'get_social_login', [$_POST['id'], $_POST['username'], $_POST['email'], $_POST['avatar']]));
+        }
     }
 
 ?>

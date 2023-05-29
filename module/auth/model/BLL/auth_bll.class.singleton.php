@@ -176,5 +176,39 @@
             return $this -> dao -> changePassword($this -> db, $hashed_pass, $args[0]);
             // return $args;
         }
+
+        public function get_social_login_BBL($args) {
+            // Comprobem que no existisca en bd
+            // existis --> fem select data user i tornem informacio en token
+            // no existis ->> insert i tornem la data
+            if(!empty($this -> dao -> selectDataSocialLogin($this -> db, $args[0]))){
+                $token = middleware::create_token_refresh($args[1]);
+                $_SESSION['username'] = $args[1];
+                $_SESSION['tiempo'] = time();
+                $token_large = middleware::create_token($args[1]);
+                $output = [
+                    'token_large' => $token_large,
+                    'token_refresh' => $token,
+                ];
+                return $output;
+            } else {
+                // INSERT
+                $res_insert = $this -> dao -> insertDataSocialLogin($this -> db, $args[0], $args[1], $args[2], $args[3]);
+                if($res_insert == true) {
+                    $token = middleware::create_token_refresh($args[1]);
+                    $_SESSION['username'] = $args[1];
+                    $_SESSION['tiempo'] = time();
+                    $token_large = middleware::create_token($args[1]);
+                    $output = [
+                        'token_large' => $token_large,
+                        'token_refresh' => $token,
+                    ];
+                    return $output;
+                }else {
+                    return "error_social_login";
+                }
+            }
+            return ;
+        }
 	}
 ?>
