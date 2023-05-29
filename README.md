@@ -45,6 +45,8 @@ En esta versión el proyecto anterior, ha sido migrado al Framework proporcionad
  Es el módulo con más seguridad de la aplicación, en el podemos darnos de alta o iniciar sesión con nuestra cuenta.
   * Validación de usuarios no dados de alta anteriormente
   * Validación de datos en cliente y servidor
+  * Social login implementado (github, google)
+  * Recuperar contraseña mediante email, cambiar contraseña.
 
 5. __Dashboard:__ 📈
 
