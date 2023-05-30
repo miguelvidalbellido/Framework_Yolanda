@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 18-05-2023 a las 12:35:53
+-- Tiempo de generación: 30-05-2023 a las 20:27:00
 -- Versión del servidor: 10.4.27-MariaDB
 -- Versión de PHP: 8.1.12
 
@@ -214,17 +214,19 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `loginUser` (IN `username_e` VARCHAR
 CREATE DEFINER=`root`@`localhost` PROCEDURE `loginUserSinPassword` (IN `username_e` VARCHAR(255), IN `password_e` VARCHAR(255), OUT `resultado` VARCHAR(255))   BEGIN
     	DECLARE existe_alm INT;
     	DECLARE pass_alm VARCHAR(255);
-        
+        DECLARE status_acount boolean;
         SELECT COUNT(*) FROM users WHERE username LIKE username_e INTO existe_alm ;
-        
-        IF existe_alm <> 0 THEN
+        SELECT isActive FROM users WHERE username LIKE username_e INTO status_acount;
+        IF status_acount = 0 THEN
+        	SET resultado = "unverified_email";
+        ELSEIF existe_alm <> 0 THEN
         	SELECT password FROM users WHERE username LIKE username_e INTO resultado;
         ELSE 
         	SET resultado = "error_username";
 		END IF;
     END$$
 
-CREATE DEFINER=`root`@`localhost` PROCEDURE `registerUser` (IN `username_e` VARCHAR(255), IN `passwd_e` VARCHAR(255), IN `f_nacimiento_e` DATE, IN `email_e` VARCHAR(255), IN `avatar_e` VARCHAR(255), OUT `resultado` VARCHAR(100))   BEGIN
+CREATE DEFINER=`root`@`localhost` PROCEDURE `registerUser` (IN `username_e` VARCHAR(255), IN `passwd_e` VARCHAR(255), IN `f_nacimiento_e` DATE, IN `email_e` VARCHAR(255), IN `avatar_e` VARCHAR(255), IN `token_email_e` VARCHAR(255), OUT `resultado` VARCHAR(100))   BEGIN
     DECLARE check_mail INT;
     DECLARE check_user INT;
 
@@ -238,7 +240,7 @@ CREATE DEFINER=`root`@`localhost` PROCEDURE `registerUser` (IN `username_e` VARC
             SET resultado = "error_username";
         ELSE
             SET resultado = "ok_insert";
-            INSERT INTO users (username, password, email, d_birth, d_registration, avatar, user_type) VALUES (username_e, passwd_e, email_e, f_nacimiento_e, NOW(), avatar_e,'client') ;
+            INSERT INTO users (username, password, email, d_birth, d_registration, avatar, user_type, token_email, isActive) VALUES (username_e, passwd_e, email_e, f_nacimiento_e, NOW(), avatar_e,'client', token_email_e, 0) ;
         END IF;
     END IF;
 END$$
@@ -418,6 +420,74 @@ INSERT INTO `cylinder_capacity` (`cod_cylinder`, `description`) VALUES
 -- --------------------------------------------------------
 
 --
+-- Estructura Stand-in para la vista `data_details_car`
+-- (Véase abajo para la vista actual)
+--
+CREATE TABLE `data_details_car` (
+`cod_car` int(255)
+,`chassis_number` varchar(255)
+,`license_plate` varchar(255)
+,`km` int(255)
+,`price` float
+,`enrollment_date` date
+,`publication_date` date
+,`doors` int(255)
+,`places` int(255)
+,`color` varchar(255)
+,`trunk_capacity` varchar(255)
+,`power` int(255)
+,`model` varchar(255)
+,`brand` varchar(255)
+,`state` varchar(255)
+,`shifter` varchar(255)
+,`population` varchar(255)
+,`province` varchar(255)
+,`cylinder_capacity` varchar(255)
+,`bodywork` varchar(255)
+,`environmental_label` varchar(255)
+,`type_motor` varchar(255)
+,`lon` float
+,`lat` float
+,`img` varchar(255)
+);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura Stand-in para la vista `data_similar_cars`
+-- (Véase abajo para la vista actual)
+--
+CREATE TABLE `data_similar_cars` (
+`cod_car` int(255)
+,`year` int(4)
+,`km` int(255)
+,`publication_date` date
+,`enrollment_date` date
+,`color` varchar(255)
+,`price` float
+,`power` int(255)
+,`doors` int(255)
+,`image` varchar(255)
+,`cod_brand` int(255)
+,`cod_fuel` int(255)
+,`cod_typemotor` int(255)
+,`model` varchar(255)
+,`brand` varchar(255)
+,`state` varchar(255)
+,`province` varchar(255)
+,`fuel` varchar(255)
+,`type_shifter` varchar(255)
+,`environmental_label` varchar(255)
+,`lat` float
+,`lon` float
+,`cod_bodywork` int(255)
+,`population` varchar(255)
+,`num_visits` int(255)
+);
+
+-- --------------------------------------------------------
+
+--
 -- Estructura de tabla para la tabla `environmental_label`
 --
 
@@ -507,7 +577,17 @@ INSERT INTO `facturas` (`id_fact`, `username`, `fecha_compra`, `precio_total`) V
 (66, 'admin11', '2023-05-02 18:35:30', 88200),
 (67, 'admin11', '2023-05-02 18:35:53', 50000),
 (68, 'admin11', '2023-05-02 18:47:41', 50000),
-(69, 'admin11', '2023-05-02 18:48:21', 88200);
+(69, 'admin11', '2023-05-02 18:48:21', 88200),
+(70, 'admin11', '2023-05-19 14:18:40', 300000),
+(71, 'admin11', '2023-05-19 14:20:24', 88200),
+(72, 'admin11', '2023-05-19 14:21:06', 50000),
+(73, 'admin11', '2023-05-21 17:18:06', 100000),
+(74, 'gancas', '2023-05-21 20:51:18', 138200),
+(75, 'admin11', '2023-05-25 20:42:46', 50000),
+(76, 'pruebesita', '2023-05-25 21:04:01', 75000),
+(77, 'admin11', '2023-05-25 21:18:18', 138200),
+(78, 'mbellido13', '2023-05-30 00:00:14', 75000),
+(79, 'admin11', '2023-05-30 19:40:55', 257300);
 
 -- --------------------------------------------------------
 
@@ -680,7 +760,14 @@ INSERT INTO `historyfilters` (`token_guest`, `filters`, `dateSearch`) VALUES
 (' admin11 ', 'fuel,electrico', '2023-04-19'),
 (' admin11 ', 'fuel,diesel', '2023-05-18'),
 (' admin11 ', 'fuel,electrico', '2023-05-18'),
-(' admin11 ', 'brand,audi', '2023-05-18');
+(' admin11 ', 'brand,audi', '2023-05-18'),
+(' gancas ', 'fuel,gasolina', '2023-05-21'),
+(' admin11 ', 'fuel,electrico', '2023-05-25'),
+(' mbellido13 ', 'fuel,electrico', '2023-05-29'),
+(' mbellido13 ', 'fuel,diesel', '2023-05-30'),
+(' mbellido13 ', 'fuel,gasolina:type_shifter,Manual', '2023-05-30'),
+(' admin11 ', 'brand,audi', '2023-05-30'),
+(' admin11 ', 'fuel,electrico:brand,bmw', '2023-05-30');
 
 -- --------------------------------------------------------
 
@@ -751,10 +838,18 @@ INSERT INTO `likes` (`username`, `cod_car`, `d_like`) VALUES
 ('admin11', 10, '2023-04-12'),
 ('admin11', 11, '2023-04-12'),
 ('admin11', 5, '2023-04-12'),
-('admin11', 2, '2023-04-12'),
 ('admin11', 8, '2023-04-12'),
 ('test12', 1, '2023-04-12'),
-('admin11', 1, '2023-05-02');
+('pruebesita', 1, '2023-05-25'),
+('pruebesita', 2, '2023-05-25'),
+('mbellido13', 2, '2023-05-29'),
+('bellido.clase', 4, '2023-05-30'),
+('miguel.vidal.bell', 4, '2023-05-30'),
+('miguel.vidal.bell', 8, '2023-05-30'),
+('admin11', 1, '2023-05-30'),
+('admin11', 2, '2023-05-30'),
+('admin11', 4, '2023-05-30'),
+('mbellido13', 1, '2023-05-30');
 
 -- --------------------------------------------------------
 
@@ -794,7 +889,21 @@ INSERT INTO `lineas_factura` (`username`, `id_fact`, `cod_car`, `quantity`, `pri
 ('admin11', 66, 2, 2, 44100, '2023-05-02'),
 ('admin11', 67, 1, 2, 25000, '2023-05-02'),
 ('admin11', 68, 1, 2, 25000, '2023-05-02'),
-('admin11', 69, 2, 2, 44100, '2023-05-02');
+('admin11', 69, 2, 2, 44100, '2023-05-02'),
+('admin11', 69, 2, 3, 44100, '2023-05-19'),
+('admin11', 70, 1, 12, 25000, '2023-05-19'),
+('admin11', 71, 2, 2, 44100, '2023-05-19'),
+('admin11', 72, 4, 2, 25000, '2023-05-19'),
+('admin11', 73, 4, 4, 25000, '2023-05-21'),
+('gancas', 74, 2, 2, 44100, '2023-05-21'),
+('gancas', 74, 6, 2, 25000, '2023-05-21'),
+('admin11', 75, 7, 2, 25000, '2023-05-25'),
+('pruebesita', 76, 4, 3, 25000, '2023-05-25'),
+('admin11', 77, 1, 2, 25000, '2023-05-25'),
+('admin11', 77, 2, 2, 44100, '2023-05-25'),
+('mbellido13', 78, 4, 3, 25000, '2023-05-30'),
+('admin11', 79, 2, 3, 44100, '2023-05-30'),
+('admin11', 79, 4, 5, 25000, '2023-05-30');
 
 -- --------------------------------------------------------
 
@@ -1014,13 +1123,13 @@ CREATE TABLE `stock` (
 --
 
 INSERT INTO `stock` (`id_car`, `quantity`) VALUES
-(1, 14),
-(2, 100),
+(1, 0),
+(2, 91),
 (3, 100),
-(4, 97),
+(4, 80),
 (5, 87),
-(6, 100),
-(7, 100),
+(6, 98),
+(7, 98),
 (8, 100),
 (9, 100),
 (10, 100),
@@ -1080,7 +1189,8 @@ INSERT INTO `temporal_cart` (`username`, `cod_car`, `quantity`) VALUES
 ('99', 99, 101),
 ('miguel', 1, 2),
 ('paco', 1, 6),
-('test', 1, 6);
+('test', 1, 6),
+('pruebesita', 2, 2);
 
 --
 -- Disparadores `temporal_cart`
@@ -1150,25 +1260,44 @@ CREATE TABLE `users` (
   `d_birth` date NOT NULL,
   `d_registration` date NOT NULL,
   `avatar` varchar(255) DEFAULT NULL,
-  `user_type` varchar(255) NOT NULL
+  `user_type` varchar(255) NOT NULL,
+  `token_email` varchar(255) NOT NULL,
+  `isActive` tinyint(1) NOT NULL,
+  `uid` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_swedish_ci;
 
 --
 -- Volcado de datos para la tabla `users`
 --
 
-INSERT INTO `users` (`id_user`, `username`, `password`, `email`, `d_birth`, `d_registration`, `avatar`, `user_type`) VALUES
-(12, 'carmenbell', '$2y$12$hBu/7R2jGpWZjf70oz2G2OpQCYmc0UFrYRwTrtVBD0RZUk7aFYUP2', 'carmen@gmail.com', '0000-00-00', '2023-03-26', 'https://i.pravatar.cc/500?u=1073cd4179e1610ccdaa60d316ebc6c8', 'client'),
-(15, 'pruebas12', '$2y$12$U026C2IVSkj2qxy1Im96LOI778UPFYCYotEroHftFUD4DS0dva/0i', 'pruebas1@gmail.com', '0000-00-00', '2023-03-28', 'https://i.pravatar.cc/500?u=772bd786ab221b0b952b8f55058366a6', 'client'),
-(18, 'paquito', '$2y$12$oz6vBdGmIoYrQAQ2vS95vOXm0DpbLwc4HNgrI8mwITP7s/phMQZeG', 'paquito@gmail.com', '2023-04-12', '2023-04-01', 'https://i.pravatar.cc/500?u=93e1388551530368e35fcbf044f55bf8', 'client'),
-(19, 'joseramon', '$2y$12$axyM0QeSrI0.2x081gV/ielbhqWY7/mCvmH9IS2b7HU06rHFcWU/y', 'joseramon@gmail.com', '2023-04-12', '2023-04-01', 'https://i.pravatar.cc/500?u=fcdac7d018248639566b80d266df749f', 'client'),
-(20, 'manolo', '$2y$12$N37PUWJAoisZ3Ph4x0pVXOmoo2N8D8lg0XohnIjGrjAcMb7hOhckm', 'manolo@gmail.com', '2023-04-12', '2023-04-01', 'https://i.pravatar.cc/500?u=e385b365f3f0eba03ac3d244bdc172db', 'client'),
-(22, 'admin11', '$2y$12$FbUFNIXTSMlDwsXILJkBIu03lVKj20FsxT.9HYU.uAv85U2JzfYES', 'admin11@gmail.com', '2023-04-06', '2023-04-02', 'https://i.pravatar.cc/500?u=5d58848e2a552421f202f3e397526f4f', 'admin'),
-(28, 'maricarmen', '$2y$12$Z53SjUTB7Umzh8Eflcvq2.qvEhqMqb6U1NGgeeq9qrMudoIEIHFLe', 'maricarmen@gmail.com', '2023-04-03', '2023-04-04', 'https://i.pravatar.cc/500?u=9100e3ed168e5e259b13276225b23c9c', 'client'),
-(29, 'testee', '$2y$12$cswQUeBdnLFjUduatH0ruOrx0Ba5YFXswGd7uBW/y2GaxIb7kASCW', 'teste@gmail.com', '2023-04-13', '2023-04-11', 'https://i.pravatar.cc/500?u=d1ca18cecaa470117672980092647dfe', 'client'),
-(30, 'miguel', '$2y$12$mfygEi4ConnVjMSzis/RGukHRvJjo2dfeoiQhaNaFJsJOpLUAO6lW', 'miguel@gmail.com', '2023-04-04', '2023-04-25', 'https://i.pravatar.cc/500?u=c952ec83eabde595820603a3ca9d7f54', 'client'),
-(31, 'dasdasdasd', '$2y$12$evsN9P/GdL6ifJn3NwI10O3jJKCAaWGlEAd6dYbxHbWNgh3t8XrYi', 'dasdasdasd@gmail.com', '2023-04-24', '2023-05-17', 'https://i.pravatar.cc/500?u=439633f4e010a5a992f5d14fa0f8180a', 'client'),
-(32, 'tesususrioo', '$2y$12$Uob7FXkt8sogmMgMm.e37.F7r76FxNI0Q9PzVQYW5T3wnD1eYMARG', 'estesegurquenoesta@gmail.com', '2023-04-24', '2023-05-17', 'https://i.pravatar.cc/500?u=ca2c27c1d89e5425960ec3466ab37835', 'client');
+INSERT INTO `users` (`id_user`, `username`, `password`, `email`, `d_birth`, `d_registration`, `avatar`, `user_type`, `token_email`, `isActive`, `uid`) VALUES
+(12, 'carmenbell', '$2y$12$Y9426IatR1p8ZaGJ.NHWvugpqJ5YQY1QXsBWJfEmDTkZancrhHxiG', 'carmen@gmail.com', '0000-00-00', '2023-03-26', 'https://i.pravatar.cc/500?u=1073cd4179e1610ccdaa60d316ebc6c8', 'client', '', 1, NULL),
+(15, 'pruebas12', '$2y$12$Y9426IatR1p8ZaGJ.NHWvugpqJ5YQY1QXsBWJfEmDTkZancrhHxiG', 'pruebas1@gmail.com', '0000-00-00', '2023-03-28', 'https://i.pravatar.cc/500?u=772bd786ab221b0b952b8f55058366a6', 'client', '', 0, NULL),
+(18, 'paquito', '$2y$12$Y9426IatR1p8ZaGJ.NHWvugpqJ5YQY1QXsBWJfEmDTkZancrhHxiG', 'paquito@gmail.com', '2023-04-12', '2023-04-01', 'https://i.pravatar.cc/500?u=93e1388551530368e35fcbf044f55bf8', 'client', '', 0, NULL),
+(19, 'joseramon', '$2y$12$Y9426IatR1p8ZaGJ.NHWvugpqJ5YQY1QXsBWJfEmDTkZancrhHxiG', 'joseramon@gmail.com', '2023-04-12', '2023-04-01', 'https://i.pravatar.cc/500?u=fcdac7d018248639566b80d266df749f', 'client', '', 0, NULL),
+(20, 'manolo', '$2y$12$Y9426IatR1p8ZaGJ.NHWvugpqJ5YQY1QXsBWJfEmDTkZancrhHxiG', 'manolo@gmail.com', '2023-04-12', '2023-04-01', 'https://i.pravatar.cc/500?u=e385b365f3f0eba03ac3d244bdc172db', 'client', '', 0, NULL),
+(22, 'admin11', '$2y$12$h4Xrhb.K7LZ1uxZvOwVQs.ptBHW6/kem4rbGewQCrkRKJmxFUXUhu', 'admin11@gmail.com', '2023-04-06', '2023-04-02', 'https://i.pravatar.cc/500?u=5d58848e2a552421f202f3e397526f4f', 'admin', '', 1, NULL),
+(28, 'maricarmen', '$2y$12$Y9426IatR1p8ZaGJ.NHWvugpqJ5YQY1QXsBWJfEmDTkZancrhHxiG', 'maricarmen@gmail.com', '2023-04-03', '2023-04-04', 'https://i.pravatar.cc/500?u=9100e3ed168e5e259b13276225b23c9c', 'client', '', 0, NULL),
+(30, 'miguel', '$2y$12$Y9426IatR1p8ZaGJ.NHWvugpqJ5YQY1QXsBWJfEmDTkZancrhHxiG', 'miguel@gmail.com', '2023-04-04', '2023-04-25', 'https://i.pravatar.cc/500?u=c952ec83eabde595820603a3ca9d7f54', 'client', '', 0, NULL),
+(31, 'dasdasdasd', '$2y$12$Y9426IatR1p8ZaGJ.NHWvugpqJ5YQY1QXsBWJfEmDTkZancrhHxiG', 'dasdasdasd@gmail.com', '2023-04-24', '2023-05-17', 'https://i.pravatar.cc/500?u=439633f4e010a5a992f5d14fa0f8180a', 'client', '', 0, NULL),
+(32, 'tesususrioo', '$2y$12$Y9426IatR1p8ZaGJ.NHWvugpqJ5YQY1QXsBWJfEmDTkZancrhHxiG', 'estesegurquenoesta@gmail.com', '2023-04-24', '2023-05-17', 'https://i.pravatar.cc/500?u=ca2c27c1d89e5425960ec3466ab37835', 'client', '', 0, NULL),
+(33, 'gancas', '$2y$12$Y9426IatR1p8ZaGJ.NHWvugpqJ5YQY1QXsBWJfEmDTkZancrhHxiG', 'gancas@gmail.com', '2023-05-25', '2023-05-21', 'https://i.pravatar.cc/500?u=d08a2b8328326c361b9d0408709f4b72', 'client', '', 0, NULL),
+(35, 'prueba23', '$2y$12$Y9426IatR1p8ZaGJ.NHWvugpqJ5YQY1QXsBWJfEmDTkZancrhHxiG', 'prueba23@gmail.com', '2023-05-11', '2023-05-22', 'https://i.pravatar.cc/500?u=ad592560df3b3c9b83c550197332ea90', 'client', '', 0, NULL),
+(36, 'prueba24', '$2y$12$Y9426IatR1p8ZaGJ.NHWvugpqJ5YQY1QXsBWJfEmDTkZancrhHxiG', 'prueba24@gmail.com', '2023-05-03', '2023-05-22', 'https://i.pravatar.cc/500?u=f0a22f18a38dc972c7bc47a510109093', 'client', '', 0, NULL),
+(37, 'prueba25', '$2y$12$Y9426IatR1p8ZaGJ.NHWvugpqJ5YQY1QXsBWJfEmDTkZancrhHxiG', 'prueba25@gmial.commoc', '0000-00-00', '2023-05-22', 'https://i.pravatar.cc/500?u=63f7e6c8268a41602e3f899a8b667579', 'client', '', 0, NULL),
+(38, 'paquino', '$2y$12$Y9426IatR1p8ZaGJ.NHWvugpqJ5YQY1QXsBWJfEmDTkZancrhHxiG', 'paquino@gmail.com', '2023-05-02', '2023-05-22', 'https://i.pravatar.cc/500?u=17391c066a195803889529ed8aa94640', 'client', '', 0, NULL),
+(39, 'johan21', '$2y$12$Y9426IatR1p8ZaGJ.NHWvugpqJ5YQY1QXsBWJfEmDTkZancrhHxiG', 'johan@gmail.com', '2023-05-03', '2023-05-22', 'https://i.pravatar.cc/500?u=4d4dd049d9b4d9600339346ec266c770', 'client', '', 0, NULL),
+(40, 'testmail', '$2y$12$IkoqOLS9V.uh2qRa3XVLkewMgX7eNNWZrIDcHyz38r1ENo5N.CNSq', 'testmail@gmail.com', '2023-05-03', '2023-05-23', 'https://i.pravatar.cc/500?u=e6382df8e62280618c3ef3ab7eff48cc', 'client', '29f9818e238e60f9c413', 0, NULL),
+(41, 'pruebita', '$2y$12$jwTGW9N7zBLjNL0M6TmQhe1cXRvE1lm0fBGpkfhYiS5ABYZcp9Zs6', 'p222rueba22@gmail.com', '2023-05-25', '2023-05-23', 'https://i.pravatar.cc/500?u=35bab851c84682f1bb446f1bb80723c2', 'client', 'eaac21b6c2f121622e16', 0, NULL),
+(42, 'joseluis', '$2y$12$lyYrNCY5LHnSaEgcjhm.oOZCWtyW8qh6gVTCgQkcBh6Fb3nFROK9C', 'joseluis@gmail.com', '2023-05-09', '2023-05-23', 'https://i.pravatar.cc/500?u=db43beb24df48138cc5762ce54a5824f', 'client', 'dcc7800a4a0e1794ac90', 0, NULL),
+(43, 'josepaco', '$2y$12$lRsXNVLbDkPMIAhL1liuI.cHCWncEgLNFwulOzU8lbeunn0uoAyQ2', 'josepaco@gmail.com', '2023-05-04', '2023-05-23', 'https://i.pravatar.cc/500?u=4eeca1424073b395367de01da1ff14ad', 'client', 'be6b591fa4bee2821dfa', 0, NULL),
+(44, 'marialuisa', '$2y$12$4B1x/KHjgKzezrsjOFXrPO.hOR1dG4yy11b/73nsN8/fyK58N4tES', 'marialuisa@dfsada.com', '2023-05-10', '2023-05-23', 'https://i.pravatar.cc/500?u=3411c65dc5522f3f4c581c0d665a7c3c', 'client', 'ccc1278d4c7b3c282062', 0, NULL),
+(45, 'josepaco22', '$2y$12$QUmH3bSOS/BE3myqni7o1eOXJmLGF15hVj2lO/.g8gh1W0zOrfZpO', 'josepac22o@gmail.com', '2023-05-04', '2023-05-23', 'https://i.pravatar.cc/500?u=4465913e8609ba50fda3275db5430884', 'client', '5cac58b58f9cf333539f', 0, NULL),
+(46, 'marialuisa22', '$2y$12$7BDgC86hMxJuisUDurVR/uu3dMoLwSOcROFRLqxav8qOTpjlMY45C', 'marialuisa22@dfsada.com', '2023-05-10', '2023-05-23', 'https://i.pravatar.cc/500?u=4370ae87cddfc9d257ca1008a2f571cf', 'client', '5378883afdd8dea92efb', 0, NULL),
+(47, 'vamoajuga', '$2y$12$n6aoCkTlsxGTIa40jGpgReSenKbBVlqek/PBX4yyfvsBZ.hWWxB12', 'vamoajuga@gmail.com', '2023-05-03', '2023-05-23', 'https://i.pravatar.cc/500?u=f2957834b3824100fdb647bcce95aa9e', 'client', 'e07c92407a3f8ab07829', 1, NULL),
+(48, 'pruebesita', '$2y$12$casaKlcEPQZhMHbr2YB4kOo6Mhty.tGHggEoInazctbL.fBSHw7/6', 'pruebesita@gmail.com', '2023-05-09', '2023-05-25', 'https://i.pravatar.cc/500?u=2fed982733e4312b6594c6aeef3516bf', 'client', '', 1, NULL),
+(49, 'pacocococ', '$2y$12$OyCKMeWc/Y0M6jtaMSenUe5zn0UepbsKn2MIIlicLmJmy5q4aqvCW', 'pacocococ@gmail.com', '2023-05-09', '2023-05-29', 'https://i.pravatar.cc/500?u=a53438264692cada732fbd6de9e77129', 'client', '', 1, NULL),
+(54, 'johann', '$2y$12$zYm13GqF335bWxw6XJtMZeIv4cYlWLudqPnRMF0/6R1DiCE1ajFdW', 'johann@gmail.com', '2023-05-10', '2023-05-30', 'https://i.pravatar.cc/500?u=305701b1118cf856d696ea0515d882bf', 'client', '', 1, NULL);
 
 -- --------------------------------------------------------
 
@@ -1186,21 +1315,39 @@ CREATE TABLE `visits` (
 --
 
 INSERT INTO `visits` (`cod_car`, `num_visits`) VALUES
-(1, 296),
-(2, 28),
+(1, 378),
+(2, 39),
 (5, 8),
-(6, 2),
-(7, 2),
+(6, 3),
+(7, 3),
 (12, 4),
 (11, 6),
 (NULL, 1),
 (3, 1),
-(4, 10),
+(4, 20),
 (8, 2),
 (9, 1),
-(10, 2),
+(10, 3),
 (13, 2),
 (0, 1);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `data_details_car`
+--
+DROP TABLE IF EXISTS `data_details_car`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `data_details_car`  AS SELECT `c`.`cod_car` AS `cod_car`, `c`.`chassis_number` AS `chassis_number`, `c`.`license_plate` AS `license_plate`, `c`.`km` AS `km`, `c`.`price` AS `price`, `c`.`enrollment_date` AS `enrollment_date`, `c`.`publication_date` AS `publication_date`, `c`.`doors` AS `doors`, `c`.`places` AS `places`, `c`.`color` AS `color`, `c`.`trunk_capacity` AS `trunk_capacity`, `c`.`power` AS `power`, `m`.`description` AS `model`, `b`.`description` AS `brand`, `s`.`description` AS `state`, `sh`.`description` AS `shifter`, `p`.`description` AS `population`, `pr`.`description` AS `province`, `cyl`.`description` AS `cylinder_capacity`, `bd`.`description` AS `bodywork`, `e`.`description` AS `environmental_label`, `t`.`description` AS `type_motor`, `loc`.`lon` AS `lon`, `loc`.`lat` AS `lat`, `i`.`url_image` AS `img` FROM ((((((((((((`car` `c` join `model` `m`) join `brand` `b`) join `state` `s`) join `population` `p`) join `province` `pr`) join `environmental_label` `e`) join `type_motor` `t`) join `cylinder_capacity` `cyl`) join `bodywork` `bd`) join `shifter` `sh`) join `location` `loc`) join `image` `i`) WHERE `m`.`cod_model` = `c`.`cod_model` AND `b`.`cod_brand` = `m`.`cod_brand` AND `s`.`cod_state` = `c`.`cod_state` AND `c`.`zip_code` = `p`.`zip_code` AND `pr`.`cod_province` = `p`.`cod_province` AND `c`.`cod_label` = `e`.`cod_label` AND `c`.`cod_typemotor` = `t`.`cod_fuel` AND `c`.`cod_cylinder` <> 0 AND `c`.`cod_cylinder` = `cyl`.`cod_cylinder` AND `c`.`cod_bodywork` = `bd`.`cod_bodywork` AND `c`.`cod_shifter` = `sh`.`cod_shifter` AND `loc`.`cod_location` = `c`.`cod_location` AND `i`.`chassis_number` = `c`.`chassis_number` AND `i`.`url_image` like '%/prtd-%''%/prtd-%'  ;
+
+-- --------------------------------------------------------
+
+--
+-- Estructura para la vista `data_similar_cars`
+--
+DROP TABLE IF EXISTS `data_similar_cars`;
+
+CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `data_similar_cars`  AS SELECT DISTINCT `kk`.`cod_car` AS `cod_car`, `kk`.`year` AS `year`, `kk`.`km` AS `km`, `kk`.`publication_date` AS `publication_date`, `kk`.`enrollment_date` AS `enrollment_date`, `kk`.`color` AS `color`, `kk`.`price` AS `price`, `kk`.`power` AS `power`, `kk`.`doors` AS `doors`, `kk`.`image` AS `image`, `kk`.`cod_brand` AS `cod_brand`, `kk`.`cod_fuel` AS `cod_fuel`, `kk`.`cod_typemotor` AS `cod_typemotor`, `kk`.`model` AS `model`, `kk`.`brand` AS `brand`, `kk`.`state` AS `state`, `kk`.`province` AS `province`, `kk`.`fuel` AS `fuel`, `kk`.`type_shifter` AS `type_shifter`, `kk`.`environmental_label` AS `environmental_label`, `kk`.`lat` AS `lat`, `kk`.`lon` AS `lon`, `kk`.`cod_bodywork` AS `cod_bodywork`, `kk`.`population` AS `population`, `kk`.`num_visits` AS `num_visits` FROM (((select `c`.`cod_car` AS `cod_car`,year(`c`.`enrollment_date`) AS `year`,`c`.`km` AS `km`,`c`.`publication_date` AS `publication_date`,`c`.`enrollment_date` AS `enrollment_date`,`c`.`color` AS `color`,`c`.`price` AS `price`,`c`.`power` AS `power`,`c`.`doors` AS `doors`,`i`.`url_image` AS `image`,`b`.`cod_brand` AS `cod_brand`,`ty`.`cod_fuel` AS `cod_fuel`,`c`.`cod_typemotor` AS `cod_typemotor`,`m`.`description` AS `model`,`b`.`description` AS `brand`,`s`.`description` AS `state`,`pr`.`description` AS `province`,`ty`.`description` AS `fuel`,`sh`.`description` AS `type_shifter`,`env`.`description` AS `environmental_label`,`loc`.`lat` AS `lat`,`loc`.`lon` AS `lon`,`bw`.`cod_bodywork` AS `cod_bodywork`,`p`.`description` AS `population`,`vis`.`num_visits` AS `num_visits` from ((((((((((((`car` `c` join `image` `i`) join `model` `m`) join `brand` `b`) join `state` `s`) join `population` `p`) join `province` `pr`) join `type_motor` `ty`) join `shifter` `sh`) join `environmental_label` `env`) join `location` `loc`) join `bodywork` `bw`) join `visits` `vis`) where `c`.`chassis_number` = `i`.`chassis_number` and `m`.`cod_model` = `c`.`cod_model` and `b`.`cod_brand` = `m`.`cod_brand` and `c`.`zip_code` = `p`.`zip_code` and `p`.`cod_province` = `pr`.`cod_province` and `c`.`cod_typemotor` = `ty`.`cod_fuel` and `s`.`cod_state` = `c`.`cod_state` and `sh`.`cod_shifter` = `c`.`cod_shifter` and `env`.`cod_label` = `c`.`cod_label` and `c`.`cod_location` = `loc`.`cod_location` and `c`.`cod_bodywork` = `bw`.`cod_bodywork` and `c`.`cod_car` = `vis`.`cod_car` and `i`.`url_image` like '%/prtd-%') `kk` join `car` `cf`) join `model` `mf`) WHERE `cf`.`cod_model` = `mf`.`cod_model` AND `kk`.`cod_brand` = `mf`.`cod_brand``cod_brand`  ;
 
 -- --------------------------------------------------------
 
@@ -1382,7 +1529,7 @@ ALTER TABLE `extras`
 -- AUTO_INCREMENT de la tabla `facturas`
 --
 ALTER TABLE `facturas`
-  MODIFY `id_fact` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=70;
+  MODIFY `id_fact` int(255) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=80;
 
 --
 -- AUTO_INCREMENT de la tabla `image`
@@ -1436,7 +1583,7 @@ ALTER TABLE `type_motor`
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id_user` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=56;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
