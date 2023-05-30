@@ -7,8 +7,7 @@
 
 ## Descripción
 
-Esta aplicación está desarrollada por un alumno de 1º de DAW. 
-Simula una plataforma de comercio electrónico sobre vehículos nuevos y usados. Con una interfaz de usuario intuitiva y fácil de usar, los usuarios pueden navegar por diferentes categorías de vehículos, ver fotos y especificaciones detalladas, y comparar precios y características antes de realizar una compra. Se han implementado funcionalidades enfocadas a mejorar la experiencia del usuario, tales como los filtros dinámicos, realizar like a los vehículos y consultar aquellas consultas previas que hemos realizado.
+Esta aplicación simula una plataforma de comercio electrónico sobre vehículos nuevos y usados. Con una interfaz de usuario intuitiva y fácil de usar, los usuarios pueden navegar por diferentes categorías de vehículos, ver fotos y especificaciones detalladas, y comparar precios y características antes de realizar una compra. Se han implementado funcionalidades enfocadas a mejorar la experiencia del usuario, tales como los filtros dinámicos, realizar like a los vehículos y consultar aquellas consultas previas que hemos realizado.
 En esta versión el proyecto anterior, ha sido migrado al Framework proporcionado por la profesora. Este FW se basa en la arquitectura Modelo -> Vista -> Controlador. 
 
 ## Funciones
