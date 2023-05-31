@@ -232,8 +232,11 @@ const load_content_control_email = () => {
                 if(pass === pass_repeat && error == false) {
                     ajaxPromise(friendlyURL("?module=auth&op=changePassword"), 'POST', 'JSON', {'token_email' : token_email, 'password' : pass})
                     .then(function(data) {
-                        // console.log(data);
-                        data === true ? (toastr.success('La contraseña ha sido mofidicada correctamente'), setTimeout(window.location.href = friendlyURL('?module=auth'), 1000)) : undefined;
+                        if(data === "token_email_expired"){
+                            toastr.warning("El token ha expirado");
+                        }else{
+                            data === true ? (toastr.success('La contraseña ha sido mofidicada correctamente'), setTimeout(window.location.href = friendlyURL('?module=auth'), 1000)) : undefined;
+                        }
                     }).catch(function() {
                         console.log("error ajaxForSearch changePassword");
                     });
@@ -256,7 +259,11 @@ function recoverPassword() {
         let username = $('#usernameLogin').val();
         ajaxPromise(friendlyURL("?module=auth&op=recoverPassword"), 'POST', 'JSON', {username})
         .then(function(data) {
-            data == true ? toastr.success('Se ha enviado un mensaje al correo asociado para reestablecer la contraseña') : undefined;
+            if(data === "User_social_login"){
+                toastr.warning("No se puede recuperar, ya que se ha registrado con terceros");
+            } else {
+                data == true ? toastr.success('Se ha enviado un mensaje al correo asociado para reestablecer la contraseña') : undefined;
+            }
         }).catch(function() {
             console.log("error ajaxForSearch RecoverPassword");
         });

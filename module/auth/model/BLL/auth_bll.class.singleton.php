@@ -154,10 +154,15 @@
         }
 
         public function get_recoverPassword_BLL($username) {
+            // Si es social se avisa al usuario y no se envia mail
+            $existe = $this -> dao -> checkIfIsSocialLogin($this -> db, $username);
+            // return $existe[0]['existe'];
+            if($existe[0]['existe'] == 1){
+                return "User_social_login";
+            }
             // Deshabilitar inicio de sesion y añadir token_email
             $token_email = common::generate_Token_secure(20);
             $rdo = $this -> dao -> disableAccount($this -> db, $username, $token_email);
-            
 
             if($rdo == true) {
                 $message = [ 'type' => 'recover', 
@@ -171,10 +176,13 @@
         }
 
         public function get_changePassword_BLL($args) {
-            $hashed_pass = password_hash($args[1], PASSWORD_DEFAULT, ['cost' => 12]);
-
-            return $this -> dao -> changePassword($this -> db, $hashed_pass, $args[0]);
-            // return $args;
+            $expireToken = $this -> dao -> checkExpireTokenMail($this -> db, $args[0]);
+            if($expireToken[0]['diff'] < 0) {
+                $hashed_pass = password_hash($args[1], PASSWORD_DEFAULT, ['cost' => 12]);
+                return $this -> dao -> changePassword($this -> db, $hashed_pass, $args[0]);
+            } else {
+                return 'token_email_expired';
+            }
         }
 
         public function get_social_login_BBL($args) {

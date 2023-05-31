@@ -41,10 +41,27 @@
             return $db -> execute($sql);
         }
 
+        public function checkIfIsSocialLogin($db, $username){
+            $sql = "SELECT COUNT(*) as 'existe'
+            FROM users u
+            WHERE u.username LIKE '$username' AND u.uid IS NOT NULL;";
+
+            $stmt = $db -> execute($sql);
+            return $db -> list($stmt);
+        }
+
         public function disableAccount($db, $username, $token_email) {
+            $sql_expire = "INSERT INTO control_token_email VALUES('$token_email', (NOW() + INTERVAL 1 HOUR))";
+            $db -> execute($sql_expire);
             $sql = "UPDATE users SET isActive = 0, token_email = '$token_email' WHERE username LIKE '$username'";
             // return $sql;
             return $db -> execute($sql);
+        }
+
+        public function checkExpireTokenMail($db, $token_email) {
+            $sql = "SELECT  TIMEDIFF(NOW(), ct.expire_time) as diff FROM control_token_email ct WHERE ct.token LIKE '$token_email'";
+            $stmt = $db -> execute($sql);
+            return $db -> list($stmt);
         }
 
         public function changePassword($db, $passwd, $token_email) {
