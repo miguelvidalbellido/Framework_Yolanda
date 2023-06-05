@@ -179,7 +179,15 @@
             $expireToken = $this -> dao -> checkExpireTokenMail($this -> db, $args[0]);
             if($expireToken[0]['diff'] < 0) {
                 $hashed_pass = password_hash($args[1], PASSWORD_DEFAULT, ['cost' => 12]);
-                return $this -> dao -> changePassword($this -> db, $hashed_pass, $args[0]);
+                $change_status = $this -> dao -> changePassword($this -> db, $hashed_pass, $args[0]);
+                if($change_status == true){
+                    $message = [ 'type' => 'passwd_change_ok', 
+                    'toEmail' =>  '..'];
+                    $email = json_decode(mail::send_email($message), true); 
+                    return true;
+                }else{
+                    return false;
+                }
             } else {
                 return 'token_email_expired';
             }

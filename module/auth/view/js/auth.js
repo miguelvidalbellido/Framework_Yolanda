@@ -210,6 +210,7 @@ const load_content_control_email = () => {
     function verificarAccount(token_email){
         ajaxPromise(friendlyURL("?module=auth&op=verifyAccount"), 'POST', 'JSON', {token_email})
         .then(function(data) {
+            
             data == true ? (localStorage.removeItem('token_email'), localStorage.removeItem('option_account'), toastr.success('Tu cuenta ha sido verificada de forma exitosa')) : console.log('Error al activar');
         }).catch(function() {
             console.log("error ajaxForSearch VerifyAccount");
@@ -232,6 +233,7 @@ const load_content_control_email = () => {
                 if(pass === pass_repeat && error == false) {
                     ajaxPromise(friendlyURL("?module=auth&op=changePassword"), 'POST', 'JSON', {'token_email' : token_email, 'password' : pass})
                     .then(function(data) {
+                        console.log(data);
                         if(data === "token_email_expired"){
                             toastr.warning("El token ha expirado");
                         }else{

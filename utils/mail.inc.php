@@ -25,6 +25,12 @@
                     $email['inputMatter'] = 'Recuperar contraseña';
                     $email['inputMessage'] = "<h2>Entra en el siguiente enlace para cambiar la contraseña.</h2><h3>En caso de no ser tu no dudes en ponerte en contacto, con el servicio de asistencia de Bellicar</h3><a href='http://localhost/FW_coches_net/auth/view/recover/$email[token]'>Modifica tu contraseña.</a>";
                     break;
+                case 'passwd_change_ok';
+                    $email['fromEmail'] = 'bellido.clase@gmail.com';
+                    $email['inputEmail'] = 'bellido.clase@gmail.com';
+                    $email['inputMatter'] = 'Contraseña modificada';
+                    $email['inputMessage'] = "<h2>Tu contraseña acaba de ser modificada</h2><h3>En caso de no ser tu no dudes en ponerte en contacto, con el servicio de asistencia de Bellicar</h3><a href='http://localhost/FW_coches_net/home/'>Modifica tu contraseña.</a>";
+                    break;
             }
             return self::send_mailgun($email);
         }
